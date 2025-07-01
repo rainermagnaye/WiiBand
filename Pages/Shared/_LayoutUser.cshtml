@@ -1,0 +1,117 @@
+﻿@* @using Microsoft.AspNetCore.Identity
+@using app_example.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/app_example.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-page="/Index">app_example</a>
+            <div class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav">
+                    <partial name="_LoginPartial" />
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div style="display: flex; min-height: 100vh;">
+        <!-- Sidebar -->
+        <div style="width: 220px; background-color: #f8f9fa; border-right: 1px solid #ddd; padding-top: 1rem;">
+            <a asp-page="/User/Dashboard" style="display: block; padding: 12px 20px; color: #333; text-decoration: none;">Dashboard</a>
+            <a asp-page="/User/WiiBand" style="display: block; padding: 12px 20px; color: #333; text-decoration: none;">WiiBand</a>
+            <a asp-page="/User/Event" style="display: block; padding: 12px 20px; color: #333; text-decoration: none;">Event</a>
+            <hr />
+        </div>
+
+        <!-- Main Content -->
+        <div style="flex-grow: 1; padding: 20px;">
+            @RenderBody()
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted mt-auto" style="padding: 10px 20px;">
+        <div class="container">
+            &copy; 2025 - app_example - <a asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+ *@
+
+@using Microsoft.AspNetCore.Identity
+@using app_example.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/app_example.styles.css" asp-append-version="true" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+    @* <script src="~/js/site.js" asp-append-version="true"></script> *@
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-50 text-gray-800">
+    <header class="bg-white border-b shadow-sm">
+        <nav class="w-full px-4 flex items-center justify-between h-16">
+            <!-- Brand -->
+            <a asp-area="" asp-page="/Index" class="text-xl font-semibold text-gray-900 hover:text-gray-700">
+                WiiBand
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="hidden md:flex space-x-6 items-center">
+                <a asp-area="" asp-page="/Index" class="text-gray-700 hover:text-gray-900">Home</a>
+                <a asp-area="" asp-page="/Privacy" class="text-gray-700 hover:text-gray-900">Privacy</a>
+                <partial name="_LoginPartial" />
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Layout -->
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <aside class="w-56 bg-gray-100 border-r p-4 space-y-2">
+            <a asp-page="/User/Dashboard" class="block px-3 py-2 rounded hover:bg-gray-200 text-gray-700">Dashboard</a>
+            <a asp-page="/User/WiiBand" class="block px-3 py-2 rounded hover:bg-gray-200 text-gray-700">WiiBand</a>
+            <a asp-page="/User/Event" class="block px-3 py-2 rounded hover:bg-gray-200 text-gray-700">Event</a>
+            <hr class="my-2" />
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            @RenderBody()
+        </main>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
+
