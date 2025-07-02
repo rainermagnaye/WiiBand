@@ -7,7 +7,7 @@ namespace app_example.Models.User
     public class Transaction
     {
         public int Id { get; set; }
-        public string Promo { get; set; } = string.Empty;
+        public string Promo { get; set; } = "";
         public int NumberOfJumpers { get; set; }
         public bool IsDiscounted { get; set; }
 

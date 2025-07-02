@@ -12,8 +12,8 @@ using app_example.Data;
 namespace app_example.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250630183200_AddCratedAtToTransactionModelInit")]
-    partial class AddCratedAtToTransactionModelInit
+    [Migration("20250701155349_InitalMigration")]
+    partial class InitalMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

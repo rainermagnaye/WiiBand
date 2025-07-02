@@ -17,6 +17,8 @@ namespace app_example.Data
         // Register your models as DbSet
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Event> Events { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
