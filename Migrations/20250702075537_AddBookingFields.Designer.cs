@@ -12,8 +12,8 @@ using app_example.Data;
 namespace app_example.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250630154657_TransactionAndCustomerModelInit")]
-    partial class TransactionAndCustomerModelInit
+    [Migration("20250702075537_AddBookingFields")]
+    partial class AddBookingFields
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,96 @@ namespace app_example.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AddonsData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("EInvitation")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ElecFoodCart")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("FoodCart")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("GameCoach")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Jumpers")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("MelonaIC")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PartyArea")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PartyDecorations")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PartyDecorationsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("PartyEquipCD")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PartyEquipUtils")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("PartyEquipment")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("PartyGuest")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PartyHours")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Socks")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<TimeSpan>("Time")
+                        .HasColumnType("time");
+
+                    b.Property<int>("TrampolineGames")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("WaterBottle")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Events");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -267,6 +357,9 @@ namespace app_example.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
