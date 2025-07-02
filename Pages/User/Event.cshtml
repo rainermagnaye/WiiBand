@@ -435,29 +435,29 @@
                 e.preventDefault();
                 const form = e.target;
                 const data = {
-                    name: form.name.value,
-                    email: form.email.value,
-                    date: form.date.value + "T00:00:00",
-                    time: form.time.value,
-                    duration: parseInt(form.duration.value),
-                    jumpers: parseInt(form.jumpers.value),
-                    socks: parseInt(form.socks.value) || 0,
-                    eInvitation: form.eInvitation.checked,
-                    gameCoach: form.gameCoach.checked,
-                    waterBottle: form.waterBottle.checked,
-                    melonaIC: form.melonaIC.checked,
-                    trampolineGames: parseInt(form.trampolineGames.value) || 0,
-                    partyArea: form.partyArea.checked,
-                    partyGuest: parseInt(form.partyGuest.value) || 0,
-                    partyHours: parseInt(form.partyHours.value) || 0,
-                    partyDecorationsEnabled: form.partyDecorationsEnabled.checked,
-                    partyDecorations: form.partyDecorations.value,
-                    foodCart: form.foodCart.checked,
-                    elecFoodCart: parseInt(form.elecFoodCart.value) || 1000,
-                    partyEquipment: form.partyEquipment.checked,
-                    partyEquipCD: parseInt(form.partyEquipCD.value) || 0,
-                    partyEquipUtils: parseInt(form.partyEquipUtils.value) || 0,
-                    addonsData: "{}"
+                    Name: form.name.value,
+                    Email: form.email.value,
+                    Date: form.date.value + "T00:00:00",
+                    Time: form.time.value,
+                    Duration: parseInt(form.duration.value),
+                    Jumpers: parseInt(form.jumpers.value),
+                    Socks: parseInt(form.socks.value) || 0,
+                    EInvitation: form.eInvitation.checked,
+                    GameCoach: form.gameCoach.checked,
+                    WaterBottle: form.waterBottle.checked,
+                    MelonaIC: form.melonaIC.checked,
+                    TrampolineGames: parseInt(form.trampolineGames.value) || 0,
+                    PartyArea: form.partyArea.checked,
+                    PartyGuest: parseInt(form.partyGuest.value) || 0,
+                    PartyHours: parseInt(form.partyHours.value) || 0,
+                    PartyDecorationsEnabled: form.partyDecorationsEnabled.checked,
+                    PartyDecorations: form.partyDecorations.value,
+                    FoodCart: form.foodCart.checked,
+                    ElecFoodCart: parseInt(form.elecFoodCart.value) || 1000,
+                    PartyEquipment: form.partyEquipment.checked,
+                    PartyEquipCD: parseInt(form.partyEquipCD.value) || 0,
+                    PartyEquipUtils: parseInt(form.partyEquipUtils.value) || 0,
+                    AddonsData: "{}"
                 };
                 try {
                     const response = await fetch('/api/user/event', {
@@ -491,7 +491,7 @@
                             <div><strong>Email:</strong> ${ev.email}</div>
                             <div><strong>Date:</strong> ${ev.startTime.split('T')[0]}</div>
                             <div><strong>Time:</strong> ${ev.startTime.split('T')[1].substring(0,5)}</div>
-                            <div><strong>Duration:</strong> ${ev.duration} mins</div>
+                            <div><strong>Duration:</strong> ${ev.duration} hours</div>
                             <div><strong>Jumpers:</strong> ${ev.jumpers}</div>
                         `;
                         document.getElementById('eventDetails').innerHTML = html;
@@ -534,31 +534,28 @@
                         document.getElementById('edit-jumpers').value = ev.jumpers;
                         document.getElementById('edit-socks').value = ev.socks ?? '';
 
-                        let addons = {};
-                        try { addons = JSON.parse(ev.addonsData || '{}'); } catch {}
+                        document.getElementById('edit-eInvitation').checked = ev.eInvitation;
+                        document.getElementById('edit-gameCoach').checked = ev.gameCoach;
+                        document.getElementById('edit-waterBottle').checked = ev.waterBottle;
+                        document.getElementById('edit-melonaIC').checked = ev.melonaIC;
+                        document.getElementById('edit-trampolineGames').value = ev.trampolineGames ?? '';
 
-                        document.getElementById('edit-eInvitation').checked = !!addons.eInvitation;
-                        document.getElementById('edit-gameCoach').checked = !!addons.gameCoach;
-                        document.getElementById('edit-waterBottle').checked = !!addons.waterBottle;
-                        document.getElementById('edit-melonaIC').checked = !!addons.melonaIC;
-                        document.getElementById('edit-trampolineGames').value = addons.trampolineGames ?? '';
-
-                        document.getElementById('edit-partyArea').checked = !!addons.partyArea;
+                        document.getElementById('edit-partyArea').checked = ev.partyArea;
                         toggleEditPartyAreaDetails(document.getElementById('edit-partyArea'));
-                        document.getElementById('edit-partyGuest').value = addons.partyGuest ?? '';
-                        document.getElementById('edit-partyHours').value = addons.partyHours ?? '';
+                        document.getElementById('edit-partyGuest').value = ev.partyGuest ?? '';
+                        document.getElementById('edit-partyHours').value = ev.partyHours ?? '';
 
-                        document.getElementById('edit-partyDecorationsEnabled').checked = !!addons.partyDecorationsEnabled;
+                        document.getElementById('edit-partyDecorationsEnabled').checked = ev.partyDecorationsEnabled;
                         toggleEditDecorationOptions(document.getElementById('edit-partyDecorationsEnabled'));
-                        document.getElementById('edit-partyDecorations').value = addons.partyDecorations ?? 'HalfDeck';
-                        document.getElementById('edit-foodCart').checked = !!addons.foodCart;
+                        document.getElementById('edit-partyDecorations').value = ev.partyDecorations ?? 'HalfDeck';
+                        document.getElementById('edit-foodCart').checked = ev.foodCart;
                         toggleEditFoodCart(document.getElementById('edit-foodCart'));
-                        document.getElementById('edit-elecFoodCart').value = addons.elecFoodCart ?? '1000';
+                        document.getElementById('edit-elecFoodCart').value = ev.elecFoodCart ?? '1000';
 
-                        document.getElementById('edit-partyEquipment').checked = !!addons.partyEquipment;
+                        document.getElementById('edit-partyEquipment').checked = ev.partyEquipment;
                         toggleEditEquipmentOptions(document.getElementById('edit-partyEquipment'));
-                        document.getElementById('edit-partyEquipCD').value = addons.partyEquipCD ?? '';
-                        document.getElementById('edit-partyEquipUtils').value = addons.partyEquipUtils ?? '';
+                        document.getElementById('edit-partyEquipCD').value = ev.partyEquipCD ?? '';
+                        document.getElementById('edit-partyEquipUtils').value = ev.partyEquipUtils ?? '';
 
                         document.getElementById('editModal').classList.remove('hidden');
                     })
@@ -572,34 +569,33 @@
             }
 
             // --- Save edited event ---
-            document.getElementById('editEventForm').addEventListener('submit', async function(e) {
+            document.getElementById('editEventForm').addEventListener('submit', async function (e) {
                 e.preventDefault();
                 const id = document.getElementById('edit-id').value;
                 const updatedEvent = {
-                    name: document.getElementById('edit-name').value,
-                    email: document.getElementById('edit-email').value,
-                    date: document.getElementById('edit-date').value + "T00:00:00",
-                    time: document.getElementById('edit-time').value,
-                    duration: parseInt(document.getElementById('edit-duration').value),
-                    jumpers: parseInt(document.getElementById('edit-jumpers').value),
-                    socks: parseInt(document.getElementById('edit-socks').value) || 0,
-                    addonsData: JSON.stringify({
-                        eInvitation: document.getElementById('edit-eInvitation').checked,
-                        gameCoach: document.getElementById('edit-gameCoach').checked,
-                        waterBottle: document.getElementById('edit-waterBottle').checked,
-                        melonaIC: document.getElementById('edit-melonaIC').checked,
-                        trampolineGames: parseInt(document.getElementById('edit-trampolineGames').value) || 0,
-                        partyArea: document.getElementById('edit-partyArea').checked,
-                        partyGuest: parseInt(document.getElementById('edit-partyGuest').value) || 0,
-                        partyHours: parseInt(document.getElementById('edit-partyHours').value) || 0,
-                        partyDecorationsEnabled: document.getElementById('edit-partyDecorationsEnabled').checked,
-                        partyDecorations: document.getElementById('edit-partyDecorations').value,
-                        foodCart: document.getElementById('edit-foodCart').checked,
-                        elecFoodCart: parseInt(document.getElementById('edit-elecFoodCart').value) || 1000,
-                        partyEquipment: document.getElementById('edit-partyEquipment').checked,
-                        partyEquipCD: parseInt(document.getElementById('edit-partyEquipCD').value) || 0,
-                        partyEquipUtils: parseInt(document.getElementById('edit-partyEquipUtils').value) || 0
-                    })
+                    Name: document.getElementById('edit-name').value,
+                    Email: document.getElementById('edit-email').value,
+                    Date: document.getElementById('edit-date').value + "T00:00:00",
+                    Time: document.getElementById('edit-time').value,
+                    Duration: parseInt(document.getElementById('edit-duration').value),
+                    Jumpers: parseInt(document.getElementById('edit-jumpers').value),
+                    Socks: parseInt(document.getElementById('edit-socks').value) || 0,
+                    EInvitation: document.getElementById('edit-eInvitation').checked,
+                    GameCoach: document.getElementById('edit-gameCoach').checked,
+                    WaterBottle: document.getElementById('edit-waterBottle').checked,
+                    MelonaIC: document.getElementById('edit-melonaIC').checked,
+                    TrampolineGames: parseInt(document.getElementById('edit-trampolineGames').value) || 0,
+                    PartyArea: document.getElementById('edit-partyArea').checked,
+                    PartyGuest: parseInt(document.getElementById('edit-partyGuest').value) || 0,
+                    PartyHours: parseInt(document.getElementById('edit-partyHours').value) || 0,
+                    PartyDecorationsEnabled: document.getElementById('edit-partyDecorationsEnabled').checked,
+                    PartyDecorations: document.getElementById('edit-partyDecorations').value,
+                    FoodCart: document.getElementById('edit-foodCart').checked,
+                    ElecFoodCart: parseInt(document.getElementById('edit-elecFoodCart').value) || 1000,
+                    PartyEquipment: document.getElementById('edit-partyEquipment').checked,
+                    PartyEquipCD: parseInt(document.getElementById('edit-partyEquipCD').value) || 0,
+                    PartyEquipUtils: parseInt(document.getElementById('edit-partyEquipUtils').value) || 0,
+                    AddonsData: "{}"
                 };
                 try {
                     const res = await fetch(`/api/user/event/${id}`, {
@@ -646,5 +642,6 @@
             }
         </script>
 }
+
 
 
