@@ -1,4 +1,4 @@
-﻿namespace app_example.DTOs
+﻿namespace app_example.DTOs.User
 {
     public class CustomerCreateRequest
     {

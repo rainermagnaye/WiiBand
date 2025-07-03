@@ -18,6 +18,9 @@ namespace app_example.Models.User
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        public string Branch { get; set; } // 🟢 must exist!
+
+
     }
 
 

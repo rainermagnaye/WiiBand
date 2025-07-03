@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace app_example.DTOs
+namespace app_example.DTOs.User
 {
     // DTOs/TransactionCreateRequest.cs
     public class TransactionCreateRequest

@@ -2,6 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using app_example.Data;
+using app_example.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,20 +21,12 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using app_example.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 
 namespace app_example.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
@@ -33,10 +36,10 @@ namespace app_example.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
+            ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             RoleManager<IdentityRole> roleManager,
-
             SignInManager<ApplicationUser> signInManager,
 
             ILogger<RegisterModel> logger,
@@ -49,6 +52,7 @@ namespace app_example.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context; // 👈 store this
         }
 
         /// <summary>
@@ -85,6 +89,13 @@ namespace app_example.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
+            [Display(Name = "Branch")]
+            public string Branch { get; set; }
+            public List<SelectListItem> BranchOptions { get; set; }
+
+
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -114,6 +125,17 @@ namespace app_example.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            Input = new InputModel
+            {
+                BranchOptions = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "SM Fairview, Quezon City", Text = "SM Fairview, Quezon City" },
+            new SelectListItem { Value = "Fiesta Carnival Cubao, Quezon City", Text = "Fiesta Carnival Cubao, Quezon City" },
+            new SelectListItem { Value = "Festival Mall, Alabang", Text = "Festival Mall, Alabang" },
+            new SelectListItem { Value = "Venice Grand Canal Mall, Taguig City", Text = "Venice Grand Canal Mall, Taguig City" }
+        }
+            };
+
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -125,6 +147,7 @@ namespace app_example.Areas.Identity.Pages.Account
                 var user = new ApplicationUser()
                 {
                     FullName = Input.FullName,
+                    Branch = Input.Branch, 
                     UserName = Input.Email,
                     Email = Input.Email,
                     EmailConfirmed = true,
