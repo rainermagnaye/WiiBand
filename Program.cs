@@ -187,7 +187,8 @@ using (var scope = app.Services.CreateScope())
             FullName = "Christene Cacapit",
             UserName = adminEmail,
             Email = adminEmail,
-            EmailConfirmed = true
+            //EmailConfirmed = true
+            Branch = "Fiesta Carnival, Cubao Quezon City"
         };
 
         var result = await userManager.CreateAsync(adminUser, adminPassword);
