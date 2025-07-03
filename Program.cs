@@ -98,6 +98,7 @@
 
 
 
+using app_example;
 using app_example.Data;
 using app_example.Models;
 using Microsoft.AspNetCore.Identity;
@@ -105,6 +106,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHostedService<UdpListenerService>();
 
 // ✅ Add Swagger services
 builder.Services.AddEndpointsApiExplorer();
@@ -197,6 +200,8 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
+
+
 
 // ✅ Middleware
 if (app.Environment.IsDevelopment())

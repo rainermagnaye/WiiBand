@@ -270,7 +270,7 @@
 </div>
 
     <!-- Edit Event Modal -->
-    @* <div id="editModal" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 hidden">
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
             <h2 class="text-lg font-semibold mb-4">Edit Event</h2>
             <form id="editEventForm" class="space-y-3">
@@ -305,9 +305,9 @@
                 </div>
             </form>
         </div>
-    </div> *@
+    </div>
 
-    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    @* <div id="openEditModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 w-full max-w-xl mx-4 sm:mx-2 overflow-y-auto max-h-[90vh]">
             <h2 class="text-xl font-semibold mb-4">Edit Event</h2>
             <form id="editEventForm" class="space-y-4">
@@ -383,7 +383,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> *@
 
 
     <!--DELETE MODAL-->
@@ -430,6 +430,35 @@
                 document.getElementById('equipmentOptions').style.display = cb.checked ? 'block' : 'none';
             }
 
+                        function openEditModal(eventId) {
+                console.log("Opening edit modal for eventId:", eventId);
+                console.log("Available events:", window.events);
+
+                if (!window.events) {
+                    alert("Events data is missing.");
+                    return;
+                }
+
+                // Find event by Id (case-insensitive)
+                const ev = window.events.find(ev => ev.Id == eventId || ev.id == eventId);
+                console.log("Found event:", ev);
+
+                if (!ev) {
+                    alert("Failed to load event for editing");
+                    return;
+                }
+
+                // Populate fields (adjust IDs to match your modal fields)
+                document.getElementById('editEventId').value = ev.Id || ev.id;
+                document.getElementById('editName').value = ev.Name || ev.name;
+
+                // Show modal
+                document.getElementById('editModal').classList.remove('hidden');
+            }
+
+            function closeEditModal() {
+                document.getElementById('editModal').classList.add('hidden');
+            }
             // --- Add Event Form submit ---
             document.getElementById('eventForm').addEventListener('submit', async function (e) {
                 e.preventDefault();
@@ -475,7 +504,7 @@
                     console.error(error);
                     alert("Error connecting to API.");
                 }
-            });
+           };
 
             // --- View Event Modal ---
             function closeViewModal() {
@@ -504,105 +533,166 @@
                     document.getElementById('eventDetails').innerHTML = 'Error connecting to API.';
                     document.getElementById('viewModal').classList.remove('hidden');
                 }
-            }
+            };
 
             // --- Toggle functions for Edit Modal ---
-            function toggleEditPartyAreaDetails(cb) {
-                document.getElementById('edit-partyAreaDetails').classList.toggle('hidden', !cb.checked);
-            }
-            function toggleEditDecorationOptions(cb) {
-                document.getElementById('edit-decorationOptions').classList.toggle('hidden', !cb.checked);
-            }
-            function toggleEditFoodCart(cb) {
-                document.getElementById('edit-foodCartOptions').classList.toggle('hidden', !cb.checked);
-            }
-            function toggleEditEquipmentOptions(cb) {
-                document.getElementById('edit-equipmentOptions').classList.toggle('hidden', !cb.checked);
-            }
+            // function toggleEditPartyAreaDetails(cb) {
+            //     document.getElementById('edit-partyAreaDetails').classList.toggle('hidden', !cb.checked);
+            // }
+            // function toggleEditDecorationOptions(cb) {
+            //     document.getElementById('edit-decorationOptions').classList.toggle('hidden', !cb.checked);
+            // }
+            // function toggleEditFoodCart(cb) {
+            //     document.getElementById('edit-foodCartOptions').classList.toggle('hidden', !cb.checked);
+            // }
+            // function toggleEditEquipmentOptions(cb) {
+            //     document.getElementById('edit-equipmentOptions').classList.toggle('hidden', !cb.checked);
+            // }
 
             // --- Open Edit Modal and populate fields ---
+            // function openEditModal(eventId) {
+            //     fetch(`/api/user/event/${eventId}`)
+            //         .then(res => res.json())
+            //         .then(ev => {
+            //             document.getElementById('edit-id').value = ev.id;
+            //             document.getElementById('edit-name').value = ev.name;
+            //             document.getElementById('edit-email').value = ev.email;
+            //             document.getElementById('edit-date').value = ev.date.split('T')[0];
+            //             document.getElementById('edit-time').value = ev.time;
+            //             document.getElementById('edit-duration').value = ev.duration;
+            //             document.getElementById('edit-jumpers').value = ev.jumpers;
+            //             document.getElementById('edit-socks').value = ev.socks ?? '';
+
+            //             document.getElementById('edit-eInvitation').checked = ev.eInvitation;
+            //             document.getElementById('edit-gameCoach').checked = ev.gameCoach;
+            //             document.getElementById('edit-waterBottle').checked = ev.waterBottle;
+            //             document.getElementById('edit-melonaIC').checked = ev.melonaIC;
+            //             document.getElementById('edit-trampolineGames').value = ev.trampolineGames ?? '';
+
+            //             document.getElementById('edit-partyArea').checked = ev.partyArea;
+            //             toggleEditPartyAreaDetails(document.getElementById('edit-partyArea'));
+            //             document.getElementById('edit-partyGuest').value = ev.partyGuest ?? '';
+            //             document.getElementById('edit-partyHours').value = ev.partyHours ?? '';
+
+            //             document.getElementById('edit-partyDecorationsEnabled').checked = ev.partyDecorationsEnabled;
+            //             toggleEditDecorationOptions(document.getElementById('edit-partyDecorationsEnabled'));
+            //             document.getElementById('edit-partyDecorations').value = ev.partyDecorations ?? 'HalfDeck';
+            //             document.getElementById('edit-foodCart').checked = ev.foodCart;
+            //             toggleEditFoodCart(document.getElementById('edit-foodCart'));
+            //             document.getElementById('edit-elecFoodCart').value = ev.elecFoodCart ?? '1000';
+
+            //             document.getElementById('edit-partyEquipment').checked = ev.partyEquipment;
+            //             toggleEditEquipmentOptions(document.getElementById('edit-partyEquipment'));
+            //             document.getElementById('edit-partyEquipCD').value = ev.partyEquipCD ?? '';
+            //             document.getElementById('edit-partyEquipUtils').value = ev.partyEquipUtils ?? '';
+
+            //             document.getElementById('editModal').classList.remove('hidden');
+            //         })
+            //         .catch(error => {
+            //             console.error(error);
+            //             alert('Failed to load event for editing.');
+            //         });
+            // }
+            // function closeEditModal() {
+            //     document.getElementById('editModal').classList.add('hidden');
+            // }
+
+            // --- Save edited event ---
+            // document.getElementById('editEventForm').addEventListener('submit', async function (e) {
+            //     e.preventDefault();
+            //     const id = document.getElementById('edit-id').value;
+            //     const updatedEvent = {
+            //         Name: document.getElementById('edit-name').value,
+            //         Email: document.getElementById('edit-email').value,
+            //         Date: document.getElementById('edit-date').value + "T00:00:00",
+            //         Time: document.getElementById('edit-time').value,
+            //         Duration: parseInt(document.getElementById('edit-duration').value),
+            //         Jumpers: parseInt(document.getElementById('edit-jumpers').value),
+            //         Socks: parseInt(document.getElementById('edit-socks').value) || 0,
+            //         EInvitation: document.getElementById('edit-eInvitation').checked,
+            //         GameCoach: document.getElementById('edit-gameCoach').checked,
+            //         WaterBottle: document.getElementById('edit-waterBottle').checked,
+            //         MelonaIC: document.getElementById('edit-melonaIC').checked,
+            //         TrampolineGames: parseInt(document.getElementById('edit-trampolineGames').value) || 0,
+            //         PartyArea: document.getElementById('edit-partyArea').checked,
+            //         PartyGuest: parseInt(document.getElementById('edit-partyGuest').value) || 0,
+            //         PartyHours: parseInt(document.getElementById('edit-partyHours').value) || 0,
+            //         PartyDecorationsEnabled: document.getElementById('edit-partyDecorationsEnabled').checked,
+            //         PartyDecorations: document.getElementById('edit-partyDecorations').value,
+            //         FoodCart: document.getElementById('edit-foodCart').checked,
+            //         ElecFoodCart: parseInt(document.getElementById('edit-elecFoodCart').value) || 1000,
+            //         PartyEquipment: document.getElementById('edit-partyEquipment').checked,
+            //         PartyEquipCD: parseInt(document.getElementById('edit-partyEquipCD').value) || 0,
+            //         PartyEquipUtils: parseInt(document.getElementById('edit-partyEquipUtils').value) || 0,
+            //         AddonsData: "{}"
+            //     };
+            //     try {
+            //         const res = await fetch(`/api/user/event/${id}`, {
+            //             method: 'PUT',
+            //             headers: { 'Content-Type': 'application/json' },
+            //             body: JSON.stringify(updatedEvent)
+            //         });
+            //         if (res.ok) {
+            //             closeEditModal();
+            //             window.location.reload();
+            //         } else {
+            //             alert('Failed to update event.');
+            //         }
+            //     } catch (error) {
+            //         console.error(error);
+            //         alert('Error connecting to API.');
+            //     }
+            // });
+
+                        // --- Open Edit Modal and populate fields ---
             function openEditModal(eventId) {
                 fetch(`/api/user/event/${eventId}`)
                     .then(res => res.json())
                     .then(ev => {
-                        document.getElementById('edit-id').value = ev.id;
-                        document.getElementById('edit-name').value = ev.name;
-                        document.getElementById('edit-email').value = ev.email;
-                        document.getElementById('edit-date').value = ev.date.split('T')[0];
-                        document.getElementById('edit-time').value = ev.time;
-                        document.getElementById('edit-duration').value = ev.duration;
-                        document.getElementById('edit-jumpers').value = ev.jumpers;
-                        document.getElementById('edit-socks').value = ev.socks ?? '';
+                        // Populate fields from fetched data
+                        document.getElementById('edit-id').value = ev.id ?? '';
+                        document.getElementById('edit-name').value = ev.name ?? '';
+                        document.getElementById('edit-email').value = ev.email ?? '';
+                        document.getElementById('edit-date').value = ev.date ? ev.date.split('T')[0] : '';
+                        document.getElementById('edit-time').value = ev.time ?? '';
+                        document.getElementById('edit-duration').value = ev.duration ?? '';
+                        document.getElementById('edit-jumpers').value = ev.jumpers ?? '';
 
-                        document.getElementById('edit-eInvitation').checked = ev.eInvitation;
-                        document.getElementById('edit-gameCoach').checked = ev.gameCoach;
-                        document.getElementById('edit-waterBottle').checked = ev.waterBottle;
-                        document.getElementById('edit-melonaIC').checked = ev.melonaIC;
-                        document.getElementById('edit-trampolineGames').value = ev.trampolineGames ?? '';
-
-                        document.getElementById('edit-partyArea').checked = ev.partyArea;
-                        toggleEditPartyAreaDetails(document.getElementById('edit-partyArea'));
-                        document.getElementById('edit-partyGuest').value = ev.partyGuest ?? '';
-                        document.getElementById('edit-partyHours').value = ev.partyHours ?? '';
-
-                        document.getElementById('edit-partyDecorationsEnabled').checked = ev.partyDecorationsEnabled;
-                        toggleEditDecorationOptions(document.getElementById('edit-partyDecorationsEnabled'));
-                        document.getElementById('edit-partyDecorations').value = ev.partyDecorations ?? 'HalfDeck';
-                        document.getElementById('edit-foodCart').checked = ev.foodCart;
-                        toggleEditFoodCart(document.getElementById('edit-foodCart'));
-                        document.getElementById('edit-elecFoodCart').value = ev.elecFoodCart ?? '1000';
-
-                        document.getElementById('edit-partyEquipment').checked = ev.partyEquipment;
-                        toggleEditEquipmentOptions(document.getElementById('edit-partyEquipment'));
-                        document.getElementById('edit-partyEquipCD').value = ev.partyEquipCD ?? '';
-                        document.getElementById('edit-partyEquipUtils').value = ev.partyEquipUtils ?? '';
-
+                        // Show modal
                         document.getElementById('editModal').classList.remove('hidden');
                     })
                     .catch(error => {
-                        console.error(error);
-                        alert('Failed to load event for editing.');
+                        console.error('Failed to load event:', error);
+                        alert('Failed to load event data.');
                     });
             }
+
+            // --- Close Edit Modal ---
             function closeEditModal() {
                 document.getElementById('editModal').classList.add('hidden');
             }
 
             // --- Save edited event ---
-            document.getElementById('editEventForm').addEventListener('submit', async function (e) {
+            document.getElementById('editEventForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
+
                 const id = document.getElementById('edit-id').value;
                 const updatedEvent = {
                     Name: document.getElementById('edit-name').value,
                     Email: document.getElementById('edit-email').value,
                     Date: document.getElementById('edit-date').value + "T00:00:00",
                     Time: document.getElementById('edit-time').value,
-                    Duration: parseInt(document.getElementById('edit-duration').value),
-                    Jumpers: parseInt(document.getElementById('edit-jumpers').value),
-                    Socks: parseInt(document.getElementById('edit-socks').value) || 0,
-                    EInvitation: document.getElementById('edit-eInvitation').checked,
-                    GameCoach: document.getElementById('edit-gameCoach').checked,
-                    WaterBottle: document.getElementById('edit-waterBottle').checked,
-                    MelonaIC: document.getElementById('edit-melonaIC').checked,
-                    TrampolineGames: parseInt(document.getElementById('edit-trampolineGames').value) || 0,
-                    PartyArea: document.getElementById('edit-partyArea').checked,
-                    PartyGuest: parseInt(document.getElementById('edit-partyGuest').value) || 0,
-                    PartyHours: parseInt(document.getElementById('edit-partyHours').value) || 0,
-                    PartyDecorationsEnabled: document.getElementById('edit-partyDecorationsEnabled').checked,
-                    PartyDecorations: document.getElementById('edit-partyDecorations').value,
-                    FoodCart: document.getElementById('edit-foodCart').checked,
-                    ElecFoodCart: parseInt(document.getElementById('edit-elecFoodCart').value) || 1000,
-                    PartyEquipment: document.getElementById('edit-partyEquipment').checked,
-                    PartyEquipCD: parseInt(document.getElementById('edit-partyEquipCD').value) || 0,
-                    PartyEquipUtils: parseInt(document.getElementById('edit-partyEquipUtils').value) || 0,
-                    AddonsData: "{}"
+                    Duration: parseInt(document.getElementById('edit-duration').value) || 0,
+                    Jumpers: parseInt(document.getElementById('edit-jumpers').value) || 0
                 };
+
                 try {
                     const res = await fetch(`/api/user/event/${id}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(updatedEvent)
                     });
+
                     if (res.ok) {
                         closeEditModal();
                         window.location.reload();
@@ -610,8 +700,8 @@
                         alert('Failed to update event.');
                     }
                 } catch (error) {
-                    console.error(error);
-                    alert('Error connecting to API.');
+                    console.error('Error updating event:', error);
+                    alert('Error connecting to server.');
                 }
             });
 

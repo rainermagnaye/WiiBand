@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using app_example.Data;
 
@@ -11,9 +12,11 @@ using app_example.Data;
 namespace app_example.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250703092356_wiibandmodels")]
+    partial class wiibandmodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -392,7 +395,7 @@ namespace app_example.Migrations
 
                     b.HasKey("TagId");
 
-                    b.ToTable("WiiBandMaster");
+                    b.ToTable("RfidScanLogs");
                 });
 
             modelBuilder.Entity("app_example.Models.User.WiiBandMonitor", b =>
@@ -424,7 +427,7 @@ namespace app_example.Migrations
 
                     b.HasIndex("TransactionId");
 
-                    b.ToTable("WiiBandMonitor");
+                    b.ToTable("RfidMonitorSessions");
                 });
 
             modelBuilder.Entity("app_example.Models.User.WiiBandTag", b =>
@@ -452,7 +455,7 @@ namespace app_example.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WiiBandTag");
+                    b.ToTable("RfidBands");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

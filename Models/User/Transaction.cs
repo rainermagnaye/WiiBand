@@ -18,9 +18,9 @@ namespace app_example.Models.User
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        // New: multiple monitor sessions
+        public ICollection<WiiBandMonitor> MonitorSessions { get; set; } = new List<WiiBandMonitor>();
+
     }
-
-
-
 
 }
