@@ -43,10 +43,10 @@ namespace app_example.Pages.Admin
             // Branch dropdown (hardcoded options)
             BranchOptions = new List<SelectListItem>
             {
-                new SelectListItem { Value = "SM Fairview, Quezon City", Text = "SM Fairview, Quezon City" },
-                new SelectListItem { Value = "Fiesta Carnival Cubao, Quezon City", Text = "Fiesta Carnival Cubao, Quezon City" },
-                new SelectListItem { Value = "Festival Mall, Alabang", Text = "Festival Mall, Alabang" },
-                new SelectListItem { Value = "Venice Grand Canal Mall, Taguig City", Text = "Venice Grand Canal Mall, Taguig City" }
+                new SelectListItem { Value = "SM Fairview, Quezon City", Text = "SM Fairview" },
+                new SelectListItem { Value = "Fiesta Carnival Cubao, Quezon City", Text = "Fiesta Carnival Cubao" },
+                new SelectListItem { Value = "Festival Mall, Alabang", Text = "Festival Mall" },
+                new SelectListItem { Value = "Venice Grand Canal Mall, Taguig City", Text = "Venice Grand Canal" }
             };
             BranchOptions.Insert(0, new SelectListItem { Value = "", Text = "All Branches" });
 
@@ -69,7 +69,8 @@ namespace app_example.Pages.Admin
             }
             else
             {
-                TodayTransactions = new TodaySummary { Transactions = new List<TransactionResponse>() };
+                // Important: set to null, not an empty list
+                TodayTransactions = null;
             }
         }
     }

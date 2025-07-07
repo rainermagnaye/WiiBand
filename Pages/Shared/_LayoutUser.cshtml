@@ -12,30 +12,27 @@
     <script src="https://cdn.tailwindcss.com/3.4.1"></script>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-50 text-gray-800">
-    <!-- Header For Logo and Branch Name -->
-    @await Html.PartialAsync("_Header")
+    <!-- Fixed Header -->
+    <header class="fixed top-0 left-0 w-full h-16 bg-white border-b z-50">
+        @await Html.PartialAsync("_Header")
+    </header>
 
-    <!-- Page Layout -->
-    <div class="flex flex-1">
-        <!-- Sidebar -->
-        <aside class="w-56 bg-gray-100 border-r p-4 space-y-2">
-            <a asp-page="/User/Dashboard" class="block px-3 py-2 rounded hover:bg-gray-200 text-gray-700">Dashboard</a>
-            <a asp-page="/User/WiiBand" class="block px-3 py-2 rounded hover:bg-gray-200 text-gray-700">WiiBand</a>
-            <a asp-page="/User/Event" class="block px-3 py-2 rounded hover:bg-gray-200 text-gray-700">Event</a>
-            <hr class="my-2" />
-        </aside>
+    <!-- Fixed Sidebar -->
+    <aside class="fixed top-16 left-0 w-56 h-[calc(100vh-4rem)] bg-gray-100 border-r p-4 space-y-2">
+        <a asp-page="/User/Dashboard" class="block px-3 py-2 rounded hover:bg-gray-200 text-gray-700">Dashboard</a>
+        <a asp-page="/User/WiiBand" class="block px-3 py-2 rounded hover:bg-gray-200 text-gray-700">WiiBand</a>
+        <a asp-page="/User/Event" class="block px-3 py-2 rounded hover:bg-gray-200 text-gray-700">Event</a>
+        <hr class="my-2" />
+    </aside>
 
-        <!-- Main Content -->
-        <main class="flex-1 p-6">
+    <!-- Main Content -->
+    <main class="ml-56 pt-16 h-screen overflow-y-auto">
+        <div class="p-6">
             @RenderBody()
-        </main>
-    </div>
+        </div>
+    </main>
 
     @await RenderSectionAsync("Scripts", required: false)
-
-@*     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script> *@
 </body>
 </html>
 
