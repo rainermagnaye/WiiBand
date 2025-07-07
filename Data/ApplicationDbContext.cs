@@ -18,6 +18,8 @@ namespace app_example.Data
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Summary> Summaries { get; set; }  // Analytics Summary (Daily, Weekly, Monthly) 
         public DbSet<Branch> Branches { get; set; } // Branches
+        public DbSet<Event> Events { get; set; }
+
 
 
 
