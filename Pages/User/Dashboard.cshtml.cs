@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using app_example.DTOs.User;
 using app_example.Models;
 using Microsoft.AspNetCore.Identity;
+using app_example.DTOs;
 
 namespace app_example.Pages.User
 {

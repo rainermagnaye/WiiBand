@@ -1,4 +1,5 @@
 ﻿using app_example.Data;
+using app_example.DTOs;
 using app_example.DTOs.User;
 using app_example.Models;
 using app_example.Models.User;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace app_example.Controllers.API
+namespace app_example.Controllers.API.User
 {
     [ApiController]
     [Route("api/user/[controller]")]

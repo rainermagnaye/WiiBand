@@ -21,10 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\API\Admin\" />
-    <Folder Include="Controllers\API\User\" />
     <Folder Include="Data\" />
-    <Folder Include="DTOs\Admin\" />
     <Folder Include="Models\Admin\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\js\" />

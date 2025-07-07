@@ -1,8 +1,188 @@
 ﻿@page
 @model app_example.Pages.Admin.DashboardModel
 @{
-        ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Admin Dashboard";
 }
 
-<h1>Admin Dashboard</h1>
-<p>Welcome, Admin!</p>
+<h1 class="text-3xl font-bold">Dashboard</h1>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-10">
+    <!-- Section: Today's Transactions -->
+    <section class="bg-white border border-gray-200 rounded-xl shadow p-6 space-y-6">
+        <div class="flex items-center justify-between">
+            <h2 class="text-2xl font-semibold">Today's Transactions</h2>
+        </div>
+
+        <!-- Transactions Filter by Branch -->
+        <form method="get" class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+            <div class="w-full sm:w-auto">
+                <label for="TransactionBranch" class="block text-sm font-medium text-gray-700">Branch</label>
+                <select id="TransactionBranch" name="TransactionBranch" asp-items="Model.BranchOptions"
+                        class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200">
+                </select>
+            </div>
+            <div class="self-start sm:self-end">
+                <button type="submit"
+                        class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    Filter
+                </button>
+            </div>
+        </form>
+
+        @if (Model.TodayTransactions != null && Model.TodayTransactions.Transactions.Any())
+        {
+            <div>
+                <h3 class="text-lg font-semibold mb-4">
+                    Summary for @Model.TransactionBranch
+                </h3>
+
+                <!-- Dashboard Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <!-- Date -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 flex items-start gap-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3M16 7V3M4 11h16M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <div>
+                            <div class="text-sm text-gray-500">Date</div>
+                            <div class="text-xl font-semibold text-gray-900">
+                                @Model.TodayTransactions.Date.ToString("MMMM dd, yyyy")
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visitors -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 flex items-start gap-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m6-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87" />
+                        </svg>
+                        <div>
+                            <div class="text-sm text-gray-500">Visitors</div>
+                            <div class="text-3xl font-bold text-blue-600">
+                                @Model.TodayTransactions.TotalJumpers
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Sales -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 flex items-start gap-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-6v.01M12 12v.01M21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8 4.03-8 9-8 9 3.582 9 8z" />
+                        </svg>
+                        <div>
+                            <div class="text-sm text-gray-500">Total Sales</div>
+                            <div class="text-3xl font-bold text-green-600">
+                                ₱@Model.TodayTransactions.TotalSales.ToString("N2")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transactions Table -->
+                <div class="overflow-x-auto border border-gray-200 rounded-lg shadow">
+                    <table class="min-w-full bg-white">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Transaction ID</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Customer Name</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Promo</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Jumpers</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Discounted</th>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var tx in Model.TodayTransactions.Transactions.OrderByDescending(t => t.Id))
+                            {
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-2">@tx.Id</td>
+                                    <td class="px-4 py-2">@tx.CustomerName</td>
+                                    <td class="px-4 py-2">@tx.Email</td>
+                                    <td class="px-4 py-2">@tx.Promo</td>
+                                    <td class="px-4 py-2">@tx.NumberOfJumpers</td>
+                                    <td class="px-4 py-2">@(tx.IsDiscounted ? "Yes" : "No")</td>
+                                    <td class="px-4 py-2 font-semibold">₱@tx.TotalAmount.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <p class="text-gray-500">Please select a branch to see today's summary.</p>
+        }
+    </section>
+
+    <!-- Section: Overall Summary -->
+    <section class="bg-white border border-gray-200 rounded-xl shadow p-6 space-y-6">
+        <h2 class="text-2xl font-semibold">Overall Summary</h2>
+
+        <form method="get" class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+            <div class="w-full sm:w-auto">
+                <label asp-for="Type" class="block text-sm font-medium text-gray-700">Summary Type</label>
+                <select asp-for="Type"
+                        class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200">
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                </select>
+            </div>
+            <div class="w-full sm:w-auto">
+                <label asp-for="Branch" class="block text-sm font-medium text-gray-700">Branch</label>
+                <select asp-for="Branch" asp-items="Model.BranchOptions"
+                        class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200">
+                </select>
+            </div>
+            <div class="self-start sm:self-end">
+                <button type="submit"
+                        class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    Filter
+                </button>
+            </div>
+        </form>
+
+        @if (Model.Summaries.Any())
+        {
+            <div class="overflow-x-auto border border-gray-200 rounded-lg shadow">
+                <table class="min-w-full bg-white">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Branch</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Period</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total Jumpers</th>
+                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total Sales</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach (var item in Model.Summaries)
+                        {
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-2">@item.Branch</td>
+                                <td class="px-4 py-2">
+                                    @if (item.PeriodStart.Date == item.PeriodEnd.Date)
+                                    {
+                                        @item.PeriodStart.ToString("MMMM d, yyyy")
+                                    }
+                                    else
+                                    {
+                                        @($"{item.PeriodStart:MMMM d, yyyy} - {item.PeriodEnd:MMMM d, yyyy}")
+                                    }
+                                </td>
+                                <td class="px-4 py-2">@item.TotalJumpers</td>
+                                <td class="px-4 py-2">₱@item.TotalSales.ToString("N2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-gray-500">No summary records found.</p>
+        }
+    </section>
+</div>
