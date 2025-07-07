@@ -1,4 +1,4 @@
-﻿namespace app_example.DTOs.User
+﻿namespace app_example.DTOs
 {
     // DTOs/TransactionResponse.cs
     public class TransactionResponse
@@ -11,6 +11,8 @@
         public int CustomerId { get; set; }
         public string CustomerName { get; set; } = "";
         public string Email { get; set; } = "";
+        public DateTime CreatedAt { get; set; }
+
     }
 
 }
