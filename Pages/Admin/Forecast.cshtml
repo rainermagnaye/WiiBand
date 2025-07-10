@@ -1,0 +1,204 @@
+﻿@* @page
+@model app_example.Pages.Admin.ForecastModel
+
+<h2>Predicted Totals (Max Amount)</h2>
+<ul>
+    <li>Weekly max: ₱@Model.WeeklyMaxTotal</li>
+    <li>Monthly max: ₱@Model.MonthlyMaxTotal</li>
+    <li>Quarterly max: ₱@Model.QuarterlyMaxTotal</li>
+    <li>Annual max: ₱@Model.AnnualMaxTotal</li>
+</ul>
+
+<h2>Predicted Totals (Max Amount)</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Period</th>
+            <th>Predicted Max Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Weekly (7 days)</td>
+            <td>₱@Model.WeeklyMaxTotal</td>
+        </tr>
+        <tr>
+            <td>Monthly (30 days)</td>
+            <td>₱@Model.MonthlyMaxTotal</td>
+        </tr>
+        <tr>
+            <td>Quarterly (90 days)</td>
+            <td>₱@Model.QuarterlyMaxTotal</td>
+        </tr>
+        <tr>
+            <td>Annually (365 days)</td>
+            <td>₱@Model.AnnualMaxTotal</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>First 30 predicted daily values</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Day</th>
+            <th>Predicted Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < 30 && i < Model.ForecastedValues.Count; i++)
+        {
+            <tr>
+                <td>@(i + 1)</td>
+                <td>₱@Math.Round((decimal)Model.ForecastedValues[i], 2)</td>
+            </tr>
+        }
+    </tbody>
+</table> *@
+
+@page
+@model app_example.Pages.Admin.ForecastModel
+
+<!-- Generate Simulated 1-Year Data Button -->
+<form method="post">
+    <button type="submit" asp-page-handler="GenerateSimulatedData"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-4">
+        Generate Simulated 1-Year Data
+    </button>
+</form>
+
+<div class="max-w-6xl mx-auto mt-8 space-y-10">
+
+    <!-- Aggregated totals table -->
+    <div class="bg-white p-6 rounded-xl shadow">
+        <h2 class="text-2xl font-bold mb-4">Predicted Totals (Sum Amount)</h2>
+        <table class="min-w-full text-left">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2">Period</th>
+                    <th class="px-4 py-2 text-right">Predicted Total Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="px-4 py-2">Weekly (7 days)</td><td class="px-4 py-2 text-right">₱@Model.WeeklyMaxTotal.ToString("N2")</td></tr>
+                <tr><td class="px-4 py-2">Monthly (30 days)</td><td class="px-4 py-2 text-right">₱@Model.MonthlyMaxTotal.ToString("N2")</td></tr>
+                <tr><td class="px-4 py-2">Quarterly (90 days)</td><td class="px-4 py-2 text-right">₱@Model.QuarterlyMaxTotal.ToString("N2")</td></tr>
+                <tr><td class="px-4 py-2">Annually (365 days)</td><td class="px-4 py-2 text-right">₱@Model.AnnualMaxTotal.ToString("N2")</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Charts: Line + Bar -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-4 rounded-xl shadow">
+            <h4 class="font-medium mb-2">Weekly Totals</h4>
+            <canvas id="weeklyChart"></canvas>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow">
+            <h4 class="font-medium mb-2">Monthly Totals</h4>
+            <canvas id="monthlyChart"></canvas>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow md:col-span-2">
+            <h4 class="font-medium mb-2">Quarterly Totals</h4>
+            <canvas id="quarterlyChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Summary Forecast Chart -->
+    <div class="bg-white p-4 rounded-xl shadow">
+        <h4 class="font-medium mb-2">Summary Forecast</h4>
+        <canvas id="forecastChart"></canvas>
+    </div>
+
+    <!-- First 30 daily predictions table -->
+    <div class="bg-white p-4 rounded-xl shadow">
+        <h3 class="text-xl font-semibold mb-2">First 30 Predicted Daily Values</h3>
+        <table class="min-w-full text-left">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2">Day</th>
+                    <th class="px-4 py-2 text-right">Predicted Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 30 && i < Model.ForecastedValues.Count; i++)
+                {
+                    <tr>
+                        <td class="px-4 py-2">@(i + 1)</td>
+                        <td class="px-4 py-2 text-right">₱@Math.Round((decimal)Model.ForecastedValues[i], 2)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="text-xl font-semibold mt-6">Model Accuracy</h3>
+    <div class="bg-white p-4 rounded-xl shadow">
+        <p><strong>R²:</strong> @Model.RSquared.ToString("0.00")</p>
+        <p><strong>Mean Absolute Error:</strong> ₱@Model.MAE.ToString("N2")</p>
+        <p><strong>Root Mean Squared Error:</strong> ₱@Model.RMSE.ToString("N2")</p>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Weekly line chart
+    new Chart(document.getElementById('weeklyChart'), {
+        type: 'line',
+        data: {
+            labels: [...Array(@Model.WeeklyTotals.Count).keys()].map(i => `Week ${i+1}`),
+            datasets: [{
+                data: [@string.Join(",", Model.WeeklyTotals.Select(v => v.ToString("0")))],
+                borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3
+            }]
+        },
+        options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    });
+
+    // Monthly bar chart
+    new Chart(document.getElementById('monthlyChart'), {
+        type: 'bar',
+        data: {
+            labels: [...Array(@Model.MonthlyTotals.Count).keys()].map(i => `Month ${i+1}`),
+            datasets: [{
+                data: [@string.Join(",", Model.MonthlyTotals.Select(v => v.ToString("0")))],
+                backgroundColor: '#34d399', borderRadius: 8
+            }]
+        },
+        options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    });
+
+    // Quarterly bar chart
+    new Chart(document.getElementById('quarterlyChart'), {
+        type: 'bar',
+        data: {
+            labels: [...Array(@Model.QuarterlyTotals.Count).keys()].map(i => `Q${i+1}`),
+            datasets: [{
+                data: [@string.Join(",", Model.QuarterlyTotals.Select(v => v.ToString("0")))],
+                backgroundColor: '#fbbf24', borderRadius: 8
+            }]
+        },
+        options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    });
+
+    // Summary line chart
+    new Chart(document.getElementById('forecastChart'), {
+        type: 'line',
+        data: {
+            labels: ['Weekly', 'Monthly', 'Quarterly', 'Annual'],
+            datasets: [{
+                data: [
+                    @Model.WeeklyMaxTotal.ToString("0"),
+                    @Model.MonthlyMaxTotal.ToString("0"),
+                    @Model.QuarterlyMaxTotal.ToString("0"),
+                    @Model.AnnualMaxTotal.ToString("0")
+                ],
+                borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,0.2)',
+                fill: true, tension: 0.3, pointRadius: 5
+            }]
+        },
+        options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    });
+</script>
+

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace app_example.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class initialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,6 +31,7 @@ namespace app_example.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Branch = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -52,6 +53,19 @@ namespace app_example.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Branches",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Branches", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
@@ -68,6 +82,44 @@ namespace app_example.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Duration = table.Column<int>(type: "int", nullable: false),
+                    Jumpers = table.Column<int>(type: "int", nullable: false),
+                    Socks = table.Column<int>(type: "int", nullable: false),
+                    EInvitation = table.Column<bool>(type: "bit", nullable: false),
+                    GameCoach = table.Column<bool>(type: "bit", nullable: false),
+                    WaterBottle = table.Column<bool>(type: "bit", nullable: false),
+                    MelonaIC = table.Column<bool>(type: "bit", nullable: false),
+                    EquipChafingQty = table.Column<int>(type: "int", nullable: true),
+                    EquipPlatesQty = table.Column<int>(type: "int", nullable: true),
+                    EquipSpoonForkQty = table.Column<int>(type: "int", nullable: true),
+                    EquipGlassQty = table.Column<int>(type: "int", nullable: true),
+                    Addons = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    TrampolineGames = table.Column<int>(type: "int", nullable: false),
+                    PartyGuest = table.Column<int>(type: "int", nullable: false),
+                    PartyHours = table.Column<int>(type: "int", nullable: false),
+                    PartyDecorations = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    ElecFoodCart = table.Column<int>(type: "int", nullable: false),
+                    PartyEquipCD = table.Column<int>(type: "int", nullable: false),
+                    PartyEquipUtils = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Summaries",
                 columns: table => new
                 {
@@ -77,7 +129,8 @@ namespace app_example.Migrations
                     PeriodEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TotalSales = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalJumpers = table.Column<int>(type: "int", nullable: false)
+                    TotalJumpers = table.Column<int>(type: "int", nullable: false),
+                    Branch = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,7 +254,8 @@ namespace app_example.Migrations
                     IsDiscounted = table.Column<bool>(type: "bit", nullable: false),
                     TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Branch = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -276,6 +330,12 @@ namespace app_example.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Branches");
+
+            migrationBuilder.DropTable(
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Summaries");

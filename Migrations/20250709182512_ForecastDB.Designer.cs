@@ -12,8 +12,8 @@ using app_example.Data;
 namespace app_example.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250703045552_AddBranchModel")]
-    partial class AddBranchModel
+    [Migration("20250709182512_ForecastDB")]
+    partial class ForecastDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,6 +162,66 @@ namespace app_example.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("app_example.Models.Admin.DailyParkSales", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DayOfWeek")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EarlyJump")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExtendedHour")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GeneralAdmission")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("OverallPaxAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("OverallPaxQty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PWDGeneralAdmission")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DailyParkSales");
+                });
+
+            modelBuilder.Entity("app_example.Models.Admin.ForecastedData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("PredictedSales")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PredictedVisitors")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ForecastedData");
+                });
+
             modelBuilder.Entity("app_example.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -259,6 +319,10 @@ namespace app_example.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Branch")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("PeriodEnd")
                         .HasColumnType("datetime2");
 
@@ -307,6 +371,107 @@ namespace app_example.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("app_example.Models.User.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Addons")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("EInvitation")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ElecFoodCart")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("EquipChafingQty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EquipGlassQty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EquipPlatesQty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EquipSpoonForkQty")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("GameCoach")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Jumpers")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("MelonaIC")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PartyDecorations")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("PartyEquipCD")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PartyEquipUtils")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PartyGuest")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PartyHours")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("Socks")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("TrampolineGames")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("WaterBottle")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Events");
+                });
+
             modelBuilder.Entity("app_example.Models.User.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -314,6 +479,10 @@ namespace app_example.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Branch")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
