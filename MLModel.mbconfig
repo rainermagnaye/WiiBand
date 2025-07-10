@@ -1,0 +1,221 @@
+﻿{
+  "Scenario": "Forecasting",
+  "DataSource": {
+    "Type": "SQL",
+    "Version": 1,
+    "ColumnProperties": [
+      {
+        "ColumnName": "Id",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "Date",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "DateTime",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "DayOfWeek",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "String",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "GeneralAdmission",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "ExtendedHour",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "PWDGeneralAdmission",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": true,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "EarlyJump",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "OverallPaxQty",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "OverallPaxAmount",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": false,
+        "Type": "Column",
+        "Version": 5
+      }
+    ],
+    "ConnectionString": "Data Source=LAPTOP-3CL6V52E\\sqlexpress;Initial Catalog=WiiBandDB;Integrated Security=True;Trust Server Certificate=True",
+    "CommandString": "SELECT CAST([Id] as REAL), [Date], CAST([DayOfWeek] as NVARCHAR(MAX)), CAST([GeneralAdmission] as REAL), CAST([ExtendedHour] as REAL), CAST([PWDGeneralAdmission] as REAL), CAST([EarlyJump] as REAL), CAST([OverallPaxQty] as REAL), CAST([OverallPaxAmount] as REAL) FROM [dbo].[DailyParkSales]",
+    "DatabaseName": "WiiBandDB",
+    "SelectedTableDbo": "dbo",
+    "TableName": "DailyParkSales"
+  },
+  "Environment": {
+    "Type": "LocalCPU",
+    "Version": 1
+  },
+  "RunHistory": {
+    "Version": 3,
+    "Type": "Result",
+    "Trials": [
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "ForecastBySsa",
+        "Score": 2496.60542840207,
+        "RuntimeInSeconds": 0.01,
+        "Parameter": {
+          "_SCHEMA_": "e0",
+          "e0": {
+            "WindowSize": 12,
+            "SeriesLength": 2194,
+            "TrainSize": 396,
+            "Horizon": 30,
+            "OutputColumnName": "OverallPaxAmount",
+            "InputColumnName": "OverallPaxAmount",
+            "ConfidenceLowerBoundColumn": "OverallPaxAmount_LB",
+            "ConfidenceUpperBoundColumn": "OverallPaxAmount_UB"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "ForecastBySsa",
+        "Score": 2496.60542840207,
+        "RuntimeInSeconds": 0.011,
+        "Parameter": {
+          "_SCHEMA_": "e0",
+          "e0": {
+            "WindowSize": 12,
+            "SeriesLength": 2198,
+            "TrainSize": 396,
+            "Horizon": 30,
+            "OutputColumnName": "OverallPaxAmount",
+            "InputColumnName": "OverallPaxAmount",
+            "ConfidenceLowerBoundColumn": "OverallPaxAmount_LB",
+            "ConfidenceUpperBoundColumn": "OverallPaxAmount_UB"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "ForecastBySsa",
+        "Score": 2496.60542840207,
+        "RuntimeInSeconds": 0.014,
+        "Parameter": {
+          "_SCHEMA_": "e0",
+          "e0": {
+            "WindowSize": 12,
+            "SeriesLength": 1088,
+            "TrainSize": 396,
+            "Horizon": 30,
+            "OutputColumnName": "OverallPaxAmount",
+            "InputColumnName": "OverallPaxAmount",
+            "ConfidenceLowerBoundColumn": "OverallPaxAmount_LB",
+            "ConfidenceUpperBoundColumn": "OverallPaxAmount_UB"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "ForecastBySsa",
+        "Score": 2496.60542840207,
+        "RuntimeInSeconds": 0.016,
+        "Parameter": {
+          "_SCHEMA_": "e0",
+          "e0": {
+            "WindowSize": 12,
+            "SeriesLength": 13,
+            "TrainSize": 396,
+            "Horizon": 30,
+            "OutputColumnName": "OverallPaxAmount",
+            "InputColumnName": "OverallPaxAmount",
+            "ConfidenceLowerBoundColumn": "OverallPaxAmount_LB",
+            "ConfidenceUpperBoundColumn": "OverallPaxAmount_UB"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "ForecastBySsa",
+        "Score": 2496.60542840207,
+        "RuntimeInSeconds": 0.011,
+        "Parameter": {
+          "_SCHEMA_": "e0",
+          "e0": {
+            "WindowSize": 12,
+            "SeriesLength": 657,
+            "TrainSize": 396,
+            "Horizon": 30,
+            "OutputColumnName": "OverallPaxAmount",
+            "InputColumnName": "OverallPaxAmount",
+            "ConfidenceLowerBoundColumn": "OverallPaxAmount_LB",
+            "ConfidenceUpperBoundColumn": "OverallPaxAmount_UB"
+          }
+        }
+      }
+    ],
+    "Estimators": {
+      "e0": "ForecastBySsa"
+    },
+    "Schema": "e0",
+    "MetricName": "RMSE",
+    "ModelFilePath": "C:\\Users\\Tine Cacapit\\Documents\\WiiBand\\MLModel.mlnet"
+  },
+  "Type": "TrainingConfig",
+  "Version": 5,
+  "TrainingOption": {
+    "Version": 3,
+    "OptimizeMetric": "RMSE",
+    "Subsampling": false,
+    "Type": "ForecastingTrainingOption",
+    "TrainingTime": 60,
+    "UseCrossValidation": false,
+    "Horizon": 30,
+    "TimeColumn": "Date",
+    "LabelColumn": "OverallPaxAmount",
+    "UseDefaultIndex": false,
+    "ValidationOption": {
+      "Version": 0,
+      "Type": "CrossValidationValidationOption",
+      "NumberOfFolds": 5
+    }
+  }
+}

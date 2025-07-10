@@ -5,7 +5,7 @@
 namespace app_example.Migrations
 {
     /// <inheritdoc />
-    public partial class dbupdate : Migration
+    public partial class addedDTOs : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

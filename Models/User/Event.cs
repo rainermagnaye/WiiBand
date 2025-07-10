@@ -41,6 +41,11 @@ namespace app_example.Models.User
         public bool WaterBottle { get; set; }
         public bool MelonaIC { get; set; }
 
+        public int EquipChafingQty { get; set; }
+        public int EquipPlatesQty { get; set; }
+        public int EquipSpoonForkQty { get; set; }
+        public int EquipGlassQty { get; set; }
+
         [StringLength(500)]
         public string? Addons { get; set; }
 
@@ -63,6 +68,7 @@ namespace app_example.Models.User
 
         [Range(0, 200)]
         public int PartyEquipUtils { get; set; }
+
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }

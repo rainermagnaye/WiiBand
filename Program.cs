@@ -100,6 +100,7 @@
 
 using app_example.Data;
 using app_example.Models;
+using app_example.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -116,6 +117,11 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1"
     });
 });
+
+// rule-based
+
+builder.Services.AddScoped<RuleBasedForecastEngine>();
+
 
 // 🔐 Add RBAC
 builder.Services.AddAuthorization(options =>

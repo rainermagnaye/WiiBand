@@ -217,74 +217,126 @@ else
                     <input asp-for="NewEvent.Date" id="dateTimePicker" class="w-full px-3 py-2 border rounded-xl" />
                 </div>
                 <div>
-                    <label class="block mb-1 text-gray-700">Duration (hrs)</label>
-                    <input asp-for="NewEvent.Duration" type="number" min="1" class="w-full px-3 py-2 border rounded-xl" />
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-700">Jumpers</label>
-                    <input asp-for="NewEvent.Jumpers" type="number" min="0" class="w-full px-3 py-2 border rounded-xl" />
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-700">Socks</label>
-                    <input asp-for="NewEvent.Socks" type="number" min="0" class="w-full px-3 py-2 border rounded-xl" />
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-700">Trampoline Games</label>
-                    <input asp-for="NewEvent.TrampolineGames" type="number" min="0" class="w-full px-3 py-2 border rounded-xl" />
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-700">Party Guest</label>
-                    <input asp-for="NewEvent.PartyGuest" type="number" min="0" class="w-full px-3 py-2 border rounded-xl" />
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-700">Party Hours</label>
-                    <input asp-for="NewEvent.PartyHours" type="number" min="0" class="w-full px-3 py-2 border rounded-xl" />
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-700">Party Equip CD</label>
-                    <input asp-for="NewEvent.PartyEquipCD" type="number" min="0" class="w-full px-3 py-2 border rounded-xl" />
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-700">Party Equip Utils</label>
-                    <input asp-for="NewEvent.PartyEquipUtils" type="number" min="0" class="w-full px-3 py-2 border rounded-xl" />
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-700">Food Cart Cost</label>
-                    <input asp-for="NewEvent.ElecFoodCart" type="number" min="0" class="w-full px-3 py-2 border rounded-xl" />
-                </div>
-                <div>
-                    <label class="block mb-1 text-gray-700">Party Decorations</label>
-                    <select asp-for="NewEvent.PartyDecorations" class="w-full px-3 py-2 border rounded-xl">
-                        <option value="">-- Decorations --</option>
-                        <option>HalfDeck</option>
-                        <option>WholeDeck</option>
-                        <option>Premium</option>
+                    <label asp-for="NewEvent.Duration" class="block text-sm font-medium mb-1">Duration (hours)</label>
+                    <select asp-for="NewEvent.Duration" class="border p-2 rounded w-full">
+                        <option value="1">-- Select time --</option>
+                        <option value="2">1 Hour</option>
+                        <option value="3">2 Hours</option>
                     </select>
                 </div>
-            </div>
+                <div>
+                    <label asp-for="NewEvent.Jumpers" class="block text-sm font-medium mb-1">Number of Jumpers</label>
+                    <select asp-for="NewEvent.Jumpers" id="jumpers" class="border p-2 rounded w-full" onchange="updateSocksValue()">
+                        <option value="">-- Select jumpers --</option>
+                        @for (int i = 10; i <= 100; i += 10)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label asp-for="NewEvent.Socks" class="block text-sm font-medium mb-1">Number of Socks</label>
+                    <input asp-for="NewEvent.Socks" id="socksInput" class="border p-2 rounded w-full" />
+                </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <label class="flex items-center space-x-2">
-                    <input asp-for="NewEvent.EInvitation" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                    <span class="text-gray-700">E-Invitation</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input asp-for="NewEvent.GameCoach" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                    <span class="text-gray-700">Game Coach</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input asp-for="NewEvent.WaterBottle" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                    <span class="text-gray-700">Water Bottle</span>
-                </label>
-                <label class="flex items-center space-x-2">
-                    <input asp-for="NewEvent.MelonaIC" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-                    <span class="text-gray-700">Melona Ice Cream</span>
-                </label>
-            </div>
+                <!-- Add-ons checkboxes -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium mb-2">Add-ons</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <label class="inline-flex items-center">
+                            <input asp-for="NewEvent.EInvitation" type="checkbox" class="mr-2" />
+                            <span>E-invitation</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" id="gameCoach" asp-for="NewEvent.GameCoach" class="rounded" onchange="toggleTrampolineGames()">
+                            <span>2 Game Coach</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input asp-for="NewEvent.WaterBottle" type="checkbox" class="mr-2" />
+                            <span>Water Bottle</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input asp-for="NewEvent.MelonaIC" type="checkbox" class="mr-2" />
+                            <span>Melona Ice Cream</span>
+                        </label>
+                    </div>
+                    <div id="trampolineGamesContainer" class="hidden mt-2">
+                        <label class="block">Trampoline Games (how many?)</label>
+                        <input type="number" asp-for="NewEvent.TrampolineGames" min="1" class="border p-2 rounded w-full">
+                    </div>
+                </div>
 
-            <div>
-                <label class="block mb-1 text-gray-700">Addons (comma separated)</label>
-                <input asp-for="NewEvent.Addons" class="w-full px-3 py-2 border rounded-xl" />
+                <!-- Party Area section -->
+                <div class="md:col-span-2">
+                    <p class="font-semibold">Party Area</p>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" id="partyArea" onchange="togglePartyAreaDetails()">
+                        <span>Party Area</span>
+                    </label>
+
+                    <div id="partyAreaDetails" class="hidden mt-2 space-y-2">
+                        <p class="text-sm italic">Inclusions: Table Cloth, Table, Chairs, cleaning, usage of cafe tables, sound system, exclusivity of party area</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block">Party Hours</label>
+                                <select id="partyHours" class="border p-2 rounded w-full" onchange="computePartyAreaCost()">
+                                    <option value="">Select hours</option>
+                                    <option value="2">2 hours</option>
+                                    <option value="3">3 hours</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block">Party Guests</label>
+                                <select id="partyGuests" class="border p-2 rounded w-full" onchange="computePartyAreaCost()">
+                                    <option value="">Select guests</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="40">40</option>
+                                    <option value="50">50</option>
+                                    <option value="60">60</option>
+                                    <option value="70">70</option>
+                                    <option value="80">80</option>
+                                    <option value="90">90</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="flex items-center space-x-2 mt-2">
+                                    <input type="checkbox" id="partyDecorations" onchange="toggleDecorationOptions()">
+                                    <span>Include Party Decorations</span>
+                                </label>
+                                <div id="decorationOptions" class="hidden mt-2">
+                                    <label class="block">Choose decoration package</label>
+                                    <select id="decorationPackage" class="border p-2 rounded w-full" onchange="computePartyAreaCost()">
+                                        <option value="0">Select package</option>
+                                        <option value="8000">Half Deck - ₱8,000</option>
+                                        <option value="15000">Whole Deck - ₱15,000</option>
+                                        <option value="25000">Premium - ₱25,000</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block mb-1 text-gray-700">Chafing Dish (₱500/pc)</label>
+                                <input type="number" id="EquipChafingQty" class="border p-2 rounded w-full" min="0">
+                            </div>
+                            <div>
+                                <label class="block mb-1 text-gray-700">Plates (₱100/person)</label>
+                                <input type="number" id="EquipPlatesQty" class="border p-2 rounded w-full" min="0">
+                            </div>
+                            <div>
+                                <label class="block mb-1 text-gray-700">Spoon & Fork (₱100/person)</label>
+                                <input type="number" id="EquipSpoonForkQty" class="border p-2 rounded w-full" min="0">
+                            </div>
+                            <div>
+                                <label class="block mb-1 text-gray-700">Glass (₱100/person)</label>
+                                <input type="number" id="EquipGlassQty" class="border p-2 rounded w-full" min="0">
+                            </div>
+                        </div>
+                        <div id="partyAreaCost" class="text-blue-600 font-semibold mt-2"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="flex justify-end">
@@ -296,9 +348,10 @@ else
     </div>
 </div>
 
+
 @* Modal to view event details on calendar UI *@
 <div id="viewModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-    <div class="bg-white rounded-xl p-6 w-full max-w-md mx-2 shadow-lg">
+    <div class="bg-white rounded-xl p-6 w-full max-w-xl mx-2 shadow-lg overflow-y-auto max-h-[90vh]">
         <h2 class="text-xl font-semibold mb-4">Event Details</h2>
         <div id="eventDetails" class="space-y-2 text-gray-700 text-sm">
             Loading...
@@ -313,7 +366,7 @@ else
 
 <!-- Edit Event Modal -->
 <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-full max-w-3xl mx-2 overflow-y-auto max-h-[90vh]">
+    <div class="bg-white rounded-lg p-6 w-full max-w-4xl mx-2 overflow-y-auto max-h-[90vh]">
         <h2 class="text-xl font-semibold mb-4">Edit Event</h2>
         <form id="editEventForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input type="hidden" id="editId" />
@@ -322,67 +375,54 @@ else
                 <label class="block mb-1 text-gray-700">Name</label>
                 <input type="text" id="editName" class="w-full px-3 py-2 border rounded" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Email</label>
                 <input type="email" id="editEmail" class="w-full px-3 py-2 border rounded" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Phone</label>
                 <input type="text" id="editPhone" class="w-full px-3 py-2 border rounded" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Date & Time</label>
                 <input type="datetime-local" id="editDate" class="w-full px-3 py-2 border rounded" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Duration (hrs)</label>
                 <input type="number" id="editDuration" class="w-full px-3 py-2 border rounded" min="1" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Jumpers</label>
                 <input type="number" id="editJumpers" class="w-full px-3 py-2 border rounded" min="0" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Socks</label>
                 <input type="number" id="editSocks" class="w-full px-3 py-2 border rounded" min="0" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Trampoline Games</label>
                 <input type="number" id="editTrampolineGames" class="w-full px-3 py-2 border rounded" min="0" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Party Guest</label>
                 <input type="number" id="editPartyGuest" class="w-full px-3 py-2 border rounded" min="0" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Party Hours</label>
                 <input type="number" id="editPartyHours" class="w-full px-3 py-2 border rounded" min="0" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Party Equip CD</label>
                 <input type="number" id="editPartyEquipCD" class="w-full px-3 py-2 border rounded" min="0" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Party Equip Utils</label>
                 <input type="number" id="editPartyEquipUtils" class="w-full px-3 py-2 border rounded" min="0" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Food Cart Cost</label>
                 <input type="number" id="editElecFoodCart" class="w-full px-3 py-2 border rounded" min="0" />
             </div>
-
             <div>
                 <label class="block mb-1 text-gray-700">Party Decorations</label>
                 <select id="editPartyDecorations" class="w-full px-3 py-2 border rounded">
@@ -393,31 +433,49 @@ else
                 </select>
             </div>
 
-            <!-- Checkboxes -->
-            <div class="flex items-center space-x-2 mt-2">
-                <input type="checkbox" id="editEInvitation" class="h-4 w-4 text-blue-600 rounded" />
-                <label for="editEInvitation" class="text-gray-700">E-Invitation</label>
+            <!-- Equipments -->
+            <div>
+                <label class="block mb-1 text-gray-700">Chafing Dish Qty</label>
+                <input type="number" id="editEquipChafingQty" class="w-full px-3 py-2 border rounded" min="0" />
+            </div>
+            <div>
+                <label class="block mb-1 text-gray-700">Plates Qty</label>
+                <input type="number" id="editEquipPlatesQty" class="w-full px-3 py-2 border rounded" min="0" />
+            </div>
+            <div>
+                <label class="block mb-1 text-gray-700">Spoon & Fork Qty</label>
+                <input type="number" id="editEquipSpoonForkQty" class="w-full px-3 py-2 border rounded" min="0" />
+            </div>
+            <div>
+                <label class="block mb-1 text-gray-700">Glass Qty</label>
+                <input type="number" id="editEquipGlassQty" class="w-full px-3 py-2 border rounded" min="0" />
             </div>
 
-            <div class="flex items-center space-x-2 mt-2">
-                <input type="checkbox" id="editGameCoach" class="h-4 w-4 text-blue-600 rounded" />
-                <label for="editGameCoach" class="text-gray-700">Game Coach</label>
-            </div>
-
-            <div class="flex items-center space-x-2 mt-2">
-                <input type="checkbox" id="editWaterBottle" class="h-4 w-4 text-blue-600 rounded" />
-                <label for="editWaterBottle" class="text-gray-700">Water Bottle</label>
-            </div>
-
-            <div class="flex items-center space-x-2 mt-2">
-                <input type="checkbox" id="editMelonaIC" class="h-4 w-4 text-blue-600 rounded" />
-                <label for="editMelonaIC" class="text-gray-700">Melona Ice Cream</label>
-            </div>
-
+            <!-- Add-ons checkboxes -->
             <div class="md:col-span-2">
-                <label class="block mb-1 text-gray-700">Addons (comma separated)</label>
-                <input type="text" id="editAddons" class="w-full px-3 py-2 border rounded" />
+                <label class="block text-sm font-medium mb-2">Add-ons</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" id="editEInvitation" class="h-4 w-4 text-blue-600 rounded" />
+                        <span class="text-gray-700">E-Invitation</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" id="editGameCoach" class="h-4 w-4 text-blue-600 rounded" />
+                        <span class="text-gray-700">Game Coach</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" id="editWaterBottle" class="h-4 w-4 text-blue-600 rounded" />
+                        <span class="text-gray-700">Water Bottle</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" id="editMelonaIC" class="h-4 w-4 text-blue-600 rounded" />
+                        <span class="text-gray-700">Melona Ice Cream</span>
+                    </label>
+                </div>
             </div>
+
+            <!-- Hidden addons field -->
+            <input type="hidden" id="editAddons" name="editAddons" />
         </form>
 
         <div class="flex justify-end mt-4 space-x-2">
@@ -426,6 +484,7 @@ else
         </div>
     </div>
 </div>
+
 
 <!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
@@ -447,14 +506,15 @@ else
 
 @section Scripts {
     <script>
-
-         flatpickr("#dateTimePicker", {
+        // Initialize flatpickr date picker
+        flatpickr("#dateTimePicker", {
             enableTime: true,
-            dateFormat: "Y-m-d H:i", // matches your backend property format
+            dateFormat: "Y-m-d H:i",
             time_24hr: false,
             defaultDate: new Date().setHours(0,0,0,0)
         });
 
+        // Modal open/close
         function openModal() {
             document.getElementById('addEventModal').classList.remove('hidden');
         }
@@ -462,7 +522,98 @@ else
             document.getElementById('addEventModal').classList.add('hidden');
         }
 
-            // Show toast if coming from a successful add
+        // Toast on successful add
+        window.addEventListener('DOMContentLoaded', () => {
+            const shouldShowAddToast = '@TempData["ShowAddToast"]' === 'True';
+            if (shouldShowAddToast) {
+                showToast('Event added successfully!');
+            }
+        });
+
+        function showToast(message) {
+            // You can create your own toast UI, here's a simple alert as placeholder
+            alert(message);
+        }
+
+        // Auto-fill socks equal to jumpers
+        function updateSocksValue() {
+            const jumpers = document.getElementById('jumpers').value;
+            document.getElementById('socksInput').value = jumpers || '';
+        }
+
+        // Toggle Trampoline Games field when Game Coach is checked
+        function toggleTrampolineGames() {
+            const isChecked = document.getElementById('gameCoach').checked;
+            document.getElementById('trampolineGamesContainer').classList.toggle('hidden', !isChecked);
+        }
+
+        // Toggle Party Area details
+        function togglePartyAreaDetails() {
+            const isChecked = document.getElementById('partyArea').checked;
+            document.getElementById('partyAreaDetails').classList.toggle('hidden', !isChecked);
+            if (!isChecked) {
+                document.getElementById('partyAreaCost').textContent = '';
+            }
+        }
+
+        // Toggle decoration options
+        function toggleDecorationOptions() {
+            const isChecked = document.getElementById('partyDecorations').checked;
+            document.getElementById('decorationOptions').classList.toggle('hidden', !isChecked);
+            computePartyAreaCost(); // recompute when toggled
+        }
+
+        // Compute Party Area estimated cost
+        function computePartyAreaCost() {
+            const guests = parseInt(document.getElementById('partyGuests').value) || 0;
+            const hours = parseInt(document.getElementById('partyHours').value) || 0;
+            const decoration = document.getElementById('partyDecorations').checked
+                ? parseInt(document.getElementById('decorationPackage').value) || 0
+                : 0;
+
+            let cost = 0;
+
+            if (guests && hours) {
+                const table = {
+                    10: {2:3960, 3:5940},
+                    20: {2:6600, 3:9900},
+                    30: {2:10560,3:15840},
+                    40: {2:13200,3:19800},
+                    50: {2:17160,3:25740},
+                    60: {2:19800,3:29700},
+                    70: {2:23760,3:35640},
+                    80: {2:26400,3:39600},
+                    90: {2:30360,3:45540},
+                    100:{2:33000,3:49500}
+                };
+                cost = (table[guests]?.[hours] || 0) + decoration;
+            }
+
+            const costLabel = document.getElementById('partyAreaCost');
+            costLabel.textContent = cost > 0 ? `Estimated Party Area Cost: ₱${cost.toLocaleString()}` : '';
+        }
+
+        // Toggle Party Equipment options
+        function toggleEquipmentOptions() {
+            const isChecked = document.getElementById('partyEquipment').checked;
+            document.getElementById('equipmentOptions').classList.toggle('hidden', !isChecked);
+        }
+
+        // Toggle food cart details (if you have a similar checkbox; adjust ID if needed)
+        function toggleFoodCartDetails() {
+            const isChecked = document.getElementById('foodCart').checked;
+            document.getElementById('foodCartDetails').classList.toggle('hidden', !isChecked);
+        }
+
+        // Show/hide equipment quantity input based on checkbox
+        function toggleEquipInput(inputId, checkbox) {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.classList.toggle('hidden', !checkbox.checked);
+                if (!checkbox.checked) input.value = '';
+            }
+        }
+        // Show toast if coming from a successful add
         window.addEventListener('DOMContentLoaded', () => {
             const shouldShowAddToast = '@TempData["ShowAddToast"]' === 'True';
             if (shouldShowAddToast) {
@@ -471,9 +622,9 @@ else
         });
 
         //view
-        const events = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Events));
+            const events = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Events));
 
-            async function viewEvent(eventId) {
+               async function viewEvent(eventId) {
             document.getElementById('eventDetails').innerHTML = 'Loading...';
 
             try {
@@ -482,36 +633,49 @@ else
 
                 const e = await response.json();
 
-                console.log('Fetched event:', e); // check actual field names
+                console.log('Fetched event:', e);
 
-                        const details = `
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-sm text-gray-700">
-                <div><strong>Name:</strong> ${e.Name ?? e.name ?? 'N/A'}</div>
-                <div><strong>Email:</strong> ${e.Email ?? e.email ?? 'N/A'}</div>
-                <div><strong>Phone:</strong> ${e.Phone ?? e.phone ?? 'N/A'}</div>
-                <div><strong>Date:</strong> ${
-                    (e.Date ?? e.date)
-                        ? new Date(e.Date ?? e.date).toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric' })
-                        : 'N/A'
-                }</div>
-                <div><strong>Jumpers:</strong> ${e.Jumpers ?? e.jumpers ?? '0'}</div>
-                <div><strong>Socks:</strong> ${e.Socks ?? e.socks ?? '0'}</div>
-                <div><strong>Duration:</strong> ${e.Duration ?? e.duration ?? '0'} hrs</div>
-                <div><strong>Trampoline Games:</strong> ${e.TrampolineGames ?? e.trampolineGames ?? '0'}</div>
-                <div><strong>Party Guest:</strong> ${e.PartyGuest ?? e.partyGuest ?? '0'}</div>
-                <div><strong>Party Hours:</strong> ${e.PartyHours ?? e.partyHours ?? '0'}</div>
-                <div><strong>Party Equip CD:</strong> ${e.PartyEquipCD ?? e.partyEquipCD ?? '0'}</div>
-                <div><strong>Party Equip Utils:</strong> ${e.PartyEquipUtils ?? e.partyEquipUtils ?? '0'}</div>
-                <div><strong>Food Cart Cost:</strong> ₱${e.ElecFoodCart ?? e.elecFoodCart ?? '0'}</div>
-                <div><strong>Party Decorations:</strong> ${e.PartyDecorations ?? e.partyDecorations ?? 'None'}</div>
-                <div><strong>E-Invitation:</strong> ${(e.EInvitation ?? e.eInvitation) ? 'Yes' : 'No'}</div>
-                <div><strong>Game Coach:</strong> ${(e.GameCoach ?? e.gameCoach) ? 'Yes' : 'No'}</div>
-                <div><strong>Water Bottle:</strong> ${(e.WaterBottle ?? e.waterBottle) ? 'Yes' : 'No'}</div>
-                <div><strong>Melona Ice Cream:</strong> ${(e.MelonaIC ?? e.melonaIC) ? 'Yes' : 'No'}</div>
-                <div class="sm:col-span-2"><strong>Addons:</strong> ${e.Addons ?? e.addons ?? 'None'}</div>
-                <div class="sm:col-span-2"><strong>Total Cost:</strong> ₱${e.TotalCost ?? e.totalCost ?? '0'}</div>
-            </div>
-        `;
+                const details = `
+                    <h3 class="font-semibold text-gray-800 mb-2">Event Details</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-sm text-gray-700">
+                        <div><strong>Name:</strong> ${e.Name ?? e.name ?? 'N/A'}</div>
+                        <div><strong>Email:</strong> ${e.Email ?? e.email ?? 'N/A'}</div>
+                        <div><strong>Phone:</strong> ${e.Phone ?? e.phone ?? 'N/A'}</div>
+                        <div><strong>Date:</strong> ${(e.Date ?? e.date) ? new Date(e.Date ?? e.date).toLocaleString() : 'N/A'}</div>
+                        <div><strong>Duration:</strong> ${e.Duration ?? e.duration ?? '0'} hrs</div>
+                        <div><strong>Jumpers:</strong> ${e.Jumpers ?? e.jumpers ?? '0'}</div>
+                        <div><strong>Socks:</strong> ${e.Socks ?? e.socks ?? '0'}</div>
+                    </div>
+
+                    <h3 class="font-semibold text-gray-800 mt-4 mb-2">Party Area</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-sm text-gray-700">
+                        <div><strong>Party Guests:</strong> ${e.PartyGuest ?? e.partyGuest ?? '0'}</div>
+                        <div><strong>Party Hours:</strong> ${e.PartyHours ?? e.partyHours ?? '0'}</div>
+                        <div><strong>Party Equip CD:</strong> ${e.PartyEquipCD ?? e.partyEquipCD ?? '0'}</div>
+                        <div><strong>Party Equip Utils:</strong> ${e.PartyEquipUtils ?? e.partyEquipUtils ?? '0'}</div>
+                        <div><strong>Party Decorations:</strong> ${e.PartyDecorations ?? e.partyDecorations ?? 'None'}</div>
+                        <div><strong>Food Cart Cost:</strong> ₱${e.ElecFoodCart ?? e.elecFoodCart ?? '0'}</div>
+                    </div>
+
+                    <h3 class="font-semibold text-gray-800 mt-4 mb-2">Equipments</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-sm text-gray-700">
+                        <div><strong>Chafing Dish Qty:</strong> ${e.EquipChafingQty ?? e.equipChafingQty ?? '0'}</div>
+                        <div><strong>Plates Qty:</strong> ${e.EquipPlatesQty ?? e.equipPlatesQty ?? '0'}</div>
+                        <div><strong>Spoon & Fork Qty:</strong> ${e.EquipSpoonForkQty ?? e.equipSpoonForkQty ?? '0'}</div>
+                        <div><strong>Glass Qty:</strong> ${e.EquipGlassQty ?? e.equipGlassQty ?? '0'}</div>
+                    </div>
+
+                    <h3 class="font-semibold text-gray-800 mt-4 mb-2">Add-ons</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-sm text-gray-700">
+                        <div><strong>E-Invitation:</strong> ${(e.EInvitation ?? e.eInvitation) ? 'Yes' : 'No'}</div>
+                        <div><strong>Game Coach:</strong> ${(e.GameCoach ?? e.gameCoach) ? 'Yes' : 'No'}</div>
+                        <div><strong>Water Bottle:</strong> ${(e.WaterBottle ?? e.waterBottle) ? 'Yes' : 'No'}</div>
+                        <div><strong>Melona Ice Cream:</strong> ${(e.MelonaIC ?? e.melonaIC) ? 'Yes' : 'No'}</div>
+                    </div>
+
+                    <div class="mt-2 text-gray-800 font-semibold">Total Cost: ₱${e.TotalCost ?? e.totalCost ?? '0'}</div>
+                `;
+
                 document.getElementById('eventDetails').innerHTML = details;
             } catch (err) {
                 console.error(err);
@@ -521,9 +685,6 @@ else
             document.getElementById('viewModal').classList.remove('hidden');
         }
 
-        function closeViewModal() {
-            document.getElementById('viewModal').classList.add('hidden');
-        }
         // edit event
 
         async function editEvent(id) {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using app_example.Data;
 
@@ -11,9 +12,11 @@ using app_example.Data;
 namespace app_example.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250710133208_updated")]
+    partial class updated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,6 +195,9 @@ namespace app_example.Migrations
                     b.Property<int>("PWDGeneralAdmission")
                         .HasColumnType("int");
 
+                    b.Property<int>("RunNumber")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("DailyParkSales");
@@ -207,7 +213,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 120,
                             OverallPaxAmount = 15900m,
                             OverallPaxQty = 159,
-                            PWDGeneralAdmission = 6
+                            PWDGeneralAdmission = 6,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -219,7 +226,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 160,
                             OverallPaxAmount = 20700m,
                             OverallPaxQty = 207,
-                            PWDGeneralAdmission = 7
+                            PWDGeneralAdmission = 7,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -231,7 +239,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 150,
                             OverallPaxAmount = 19300m,
                             OverallPaxQty = 193,
-                            PWDGeneralAdmission = 6
+                            PWDGeneralAdmission = 6,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -243,7 +252,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 110,
                             OverallPaxAmount = 14100m,
                             OverallPaxQty = 141,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -255,7 +265,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 105,
                             OverallPaxAmount = 13300m,
                             OverallPaxQty = 133,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -267,7 +278,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 108,
                             OverallPaxAmount = 13700m,
                             OverallPaxQty = 137,
-                            PWDGeneralAdmission = 4
+                            PWDGeneralAdmission = 4,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -279,7 +291,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 112,
                             OverallPaxAmount = 14300m,
                             OverallPaxQty = 143,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -291,7 +304,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 125,
                             OverallPaxAmount = 16200m,
                             OverallPaxQty = 162,
-                            PWDGeneralAdmission = 6
+                            PWDGeneralAdmission = 6,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -303,7 +317,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 165,
                             OverallPaxAmount = 21300m,
                             OverallPaxQty = 213,
-                            PWDGeneralAdmission = 7
+                            PWDGeneralAdmission = 7,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -315,7 +330,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 155,
                             OverallPaxAmount = 19900m,
                             OverallPaxQty = 199,
-                            PWDGeneralAdmission = 6
+                            PWDGeneralAdmission = 6,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -327,7 +343,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 115,
                             OverallPaxAmount = 14800m,
                             OverallPaxQty = 148,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -339,7 +356,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 110,
                             OverallPaxAmount = 14000m,
                             OverallPaxQty = 140,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -351,7 +369,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 113,
                             OverallPaxAmount = 14400m,
                             OverallPaxQty = 144,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -363,7 +382,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 116,
                             OverallPaxAmount = 14800m,
                             OverallPaxQty = 148,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -375,7 +395,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 128,
                             OverallPaxAmount = 16600m,
                             OverallPaxQty = 166,
-                            PWDGeneralAdmission = 6
+                            PWDGeneralAdmission = 6,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -387,7 +408,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 170,
                             OverallPaxAmount = 21900m,
                             OverallPaxQty = 219,
-                            PWDGeneralAdmission = 7
+                            PWDGeneralAdmission = 7,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -399,7 +421,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 158,
                             OverallPaxAmount = 20300m,
                             OverallPaxQty = 203,
-                            PWDGeneralAdmission = 6
+                            PWDGeneralAdmission = 6,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -411,7 +434,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 117,
                             OverallPaxAmount = 15000m,
                             OverallPaxQty = 150,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -423,7 +447,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 112,
                             OverallPaxAmount = 14200m,
                             OverallPaxQty = 142,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -435,7 +460,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 115,
                             OverallPaxAmount = 14600m,
                             OverallPaxQty = 146,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -447,7 +473,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 118,
                             OverallPaxAmount = 15000m,
                             OverallPaxQty = 150,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -459,7 +486,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 130,
                             OverallPaxAmount = 16900m,
                             OverallPaxQty = 169,
-                            PWDGeneralAdmission = 6
+                            PWDGeneralAdmission = 6,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -471,7 +499,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 172,
                             OverallPaxAmount = 22200m,
                             OverallPaxQty = 222,
-                            PWDGeneralAdmission = 7
+                            PWDGeneralAdmission = 7,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -483,7 +512,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 160,
                             OverallPaxAmount = 20600m,
                             OverallPaxQty = 206,
-                            PWDGeneralAdmission = 6
+                            PWDGeneralAdmission = 6,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -495,7 +525,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 120,
                             OverallPaxAmount = 15400m,
                             OverallPaxQty = 154,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -507,7 +538,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 114,
                             OverallPaxAmount = 14500m,
                             OverallPaxQty = 145,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -519,7 +551,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 117,
                             OverallPaxAmount = 14900m,
                             OverallPaxQty = 149,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -531,7 +564,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 120,
                             OverallPaxAmount = 15300m,
                             OverallPaxQty = 153,
-                            PWDGeneralAdmission = 5
+                            PWDGeneralAdmission = 5,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -543,7 +577,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 132,
                             OverallPaxAmount = 17200m,
                             OverallPaxQty = 172,
-                            PWDGeneralAdmission = 6
+                            PWDGeneralAdmission = 6,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -555,7 +590,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 175,
                             OverallPaxAmount = 22600m,
                             OverallPaxQty = 226,
-                            PWDGeneralAdmission = 7
+                            PWDGeneralAdmission = 7,
+                            RunNumber = 0
                         },
                         new
                         {
@@ -567,7 +603,8 @@ namespace app_example.Migrations
                             GeneralAdmission = 162,
                             OverallPaxAmount = 20900m,
                             OverallPaxQty = 209,
-                            PWDGeneralAdmission = 6
+                            PWDGeneralAdmission = 6,
+                            RunNumber = 0
                         });
                 });
 
