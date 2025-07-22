@@ -48,7 +48,7 @@
         "ColumnName": "PWDGeneralAdmission",
         "ColumnPurpose": "Feature",
         "ColumnDataFormat": "Single",
-        "IsCategorical": true,
+        "IsCategorical": false,
         "Type": "Column",
         "Version": 5
       },
@@ -75,10 +75,26 @@
         "IsCategorical": false,
         "Type": "Column",
         "Version": 5
+      },
+      {
+        "ColumnName": "TenHourMultipass",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": true,
+        "Type": "Column",
+        "Version": 5
+      },
+      {
+        "ColumnName": "TwentyHourMultipass",
+        "ColumnPurpose": "Feature",
+        "ColumnDataFormat": "Single",
+        "IsCategorical": true,
+        "Type": "Column",
+        "Version": 5
       }
     ],
     "ConnectionString": "Data Source=LAPTOP-3CL6V52E\\sqlexpress;Initial Catalog=WiiBandDB;Integrated Security=True;Trust Server Certificate=True",
-    "CommandString": "SELECT CAST([Id] as REAL), [Date], CAST([DayOfWeek] as NVARCHAR(MAX)), CAST([GeneralAdmission] as REAL), CAST([ExtendedHour] as REAL), CAST([PWDGeneralAdmission] as REAL), CAST([EarlyJump] as REAL), CAST([OverallPaxQty] as REAL), CAST([OverallPaxAmount] as REAL) FROM [dbo].[DailyParkSales]",
+    "CommandString": "SELECT CAST([Id] as REAL), [Date], CAST([DayOfWeek] as NVARCHAR(MAX)), CAST([GeneralAdmission] as REAL), CAST([ExtendedHour] as REAL), CAST([PWDGeneralAdmission] as REAL), CAST([EarlyJump] as REAL), CAST([OverallPaxQty] as REAL), CAST([OverallPaxAmount] as REAL), CAST([TenHourMultipass] as REAL), CAST([TwentyHourMultipass] as REAL) FROM [dbo].[DailyParkSales]",
     "DatabaseName": "WiiBandDB",
     "SelectedTableDbo": "dbo",
     "TableName": "DailyParkSales"
@@ -95,13 +111,13 @@
         "Version": 1,
         "Type": "Trial",
         "TrainerName": "ForecastBySsa",
-        "Score": 2496.60542840207,
-        "RuntimeInSeconds": 0.01,
+        "Score": 13023.958476987671,
+        "RuntimeInSeconds": 0.128,
         "Parameter": {
           "_SCHEMA_": "e0",
           "e0": {
-            "WindowSize": 12,
-            "SeriesLength": 2194,
+            "WindowSize": 2,
+            "SeriesLength": 10,
             "TrainSize": 396,
             "Horizon": 30,
             "OutputColumnName": "OverallPaxAmount",
@@ -115,73 +131,73 @@
         "Version": 1,
         "Type": "Trial",
         "TrainerName": "ForecastBySsa",
-        "Score": 2496.60542840207,
+        "Score": 13023.958476987671,
+        "RuntimeInSeconds": 0.008,
+        "Parameter": {
+          "_SCHEMA_": "e0",
+          "e0": {
+            "WindowSize": 2,
+            "SeriesLength": 3198,
+            "TrainSize": 396,
+            "Horizon": 30,
+            "OutputColumnName": "OverallPaxAmount",
+            "InputColumnName": "OverallPaxAmount",
+            "ConfidenceLowerBoundColumn": "OverallPaxAmount_LB",
+            "ConfidenceUpperBoundColumn": "OverallPaxAmount_UB"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "ForecastBySsa",
+        "Score": 13023.958476987671,
+        "RuntimeInSeconds": 0.008,
+        "Parameter": {
+          "_SCHEMA_": "e0",
+          "e0": {
+            "WindowSize": 2,
+            "SeriesLength": 695,
+            "TrainSize": 396,
+            "Horizon": 30,
+            "OutputColumnName": "OverallPaxAmount",
+            "InputColumnName": "OverallPaxAmount",
+            "ConfidenceLowerBoundColumn": "OverallPaxAmount_LB",
+            "ConfidenceUpperBoundColumn": "OverallPaxAmount_UB"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "ForecastBySsa",
+        "Score": 13023.958476987671,
+        "RuntimeInSeconds": 0.008,
+        "Parameter": {
+          "_SCHEMA_": "e0",
+          "e0": {
+            "WindowSize": 2,
+            "SeriesLength": 98,
+            "TrainSize": 396,
+            "Horizon": 30,
+            "OutputColumnName": "OverallPaxAmount",
+            "InputColumnName": "OverallPaxAmount",
+            "ConfidenceLowerBoundColumn": "OverallPaxAmount_LB",
+            "ConfidenceUpperBoundColumn": "OverallPaxAmount_UB"
+          }
+        }
+      },
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "ForecastBySsa",
+        "Score": 13023.958476987671,
         "RuntimeInSeconds": 0.011,
         "Parameter": {
           "_SCHEMA_": "e0",
           "e0": {
-            "WindowSize": 12,
-            "SeriesLength": 2198,
-            "TrainSize": 396,
-            "Horizon": 30,
-            "OutputColumnName": "OverallPaxAmount",
-            "InputColumnName": "OverallPaxAmount",
-            "ConfidenceLowerBoundColumn": "OverallPaxAmount_LB",
-            "ConfidenceUpperBoundColumn": "OverallPaxAmount_UB"
-          }
-        }
-      },
-      {
-        "Version": 1,
-        "Type": "Trial",
-        "TrainerName": "ForecastBySsa",
-        "Score": 2496.60542840207,
-        "RuntimeInSeconds": 0.014,
-        "Parameter": {
-          "_SCHEMA_": "e0",
-          "e0": {
-            "WindowSize": 12,
-            "SeriesLength": 1088,
-            "TrainSize": 396,
-            "Horizon": 30,
-            "OutputColumnName": "OverallPaxAmount",
-            "InputColumnName": "OverallPaxAmount",
-            "ConfidenceLowerBoundColumn": "OverallPaxAmount_LB",
-            "ConfidenceUpperBoundColumn": "OverallPaxAmount_UB"
-          }
-        }
-      },
-      {
-        "Version": 1,
-        "Type": "Trial",
-        "TrainerName": "ForecastBySsa",
-        "Score": 2496.60542840207,
-        "RuntimeInSeconds": 0.016,
-        "Parameter": {
-          "_SCHEMA_": "e0",
-          "e0": {
-            "WindowSize": 12,
-            "SeriesLength": 13,
-            "TrainSize": 396,
-            "Horizon": 30,
-            "OutputColumnName": "OverallPaxAmount",
-            "InputColumnName": "OverallPaxAmount",
-            "ConfidenceLowerBoundColumn": "OverallPaxAmount_LB",
-            "ConfidenceUpperBoundColumn": "OverallPaxAmount_UB"
-          }
-        }
-      },
-      {
-        "Version": 1,
-        "Type": "Trial",
-        "TrainerName": "ForecastBySsa",
-        "Score": 2496.60542840207,
-        "RuntimeInSeconds": 0.011,
-        "Parameter": {
-          "_SCHEMA_": "e0",
-          "e0": {
-            "WindowSize": 12,
-            "SeriesLength": 657,
+            "WindowSize": 2,
+            "SeriesLength": 112,
             "TrainSize": 396,
             "Horizon": 30,
             "OutputColumnName": "OverallPaxAmount",
@@ -196,17 +212,18 @@
       "e0": "ForecastBySsa"
     },
     "Schema": "e0",
-    "MetricName": "RMSE",
+    "MetricName": "MAE",
     "ModelFilePath": "C:\\Users\\Tine Cacapit\\Documents\\WiiBand\\MLModel.mlnet"
   },
   "Type": "TrainingConfig",
   "Version": 5,
   "TrainingOption": {
     "Version": 3,
-    "OptimizeMetric": "RMSE",
+    "OptimizeMetric": "MAE",
     "Subsampling": false,
+    "Tuner": "eci-cfo",
     "Type": "ForecastingTrainingOption",
-    "TrainingTime": 60,
+    "TrainingTime": 180,
     "UseCrossValidation": false,
     "Horizon": 30,
     "TimeColumn": "Date",

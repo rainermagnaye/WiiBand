@@ -60,14 +60,35 @@
 @model app_example.Pages.Admin.ForecastModel
 
 <!-- Generate Simulated 1-Year Data Button -->
-<form method="post">
+@* <form method="post">
     <button type="submit" asp-page-handler="GenerateSimulatedData"
             class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-4">
         Generate Simulated 1-Year Data
     </button>
-</form>
+</form> *@
+
+<script>
+    async function loadForecast() {
+        const res = await fetch('/api/forecast/summary');
+        const data = await res.json();
+
+        document.getElementById('annualForecast').innerText = `₱${data.annual.toLocaleString()}`;
+        document.getElementById('monthlyForecast').innerText =
+            data.monthly.map((m, i) => `Month ${i + 1}: ₱${m.toFixed(2)}`).join('<br>');
+    }
+
+    document.addEventListener('DOMContentLoaded', loadForecast);
+</script>
+
+<div>
+    <h3>📅 Forecast Summary</h3>
+    <p><strong>Annual Forecast:</strong> <span id="annualForecast">Loading...</span></p>
+    <div id="monthlyForecast"></div>
+</div>
+
 
 <div class="max-w-6xl mx-auto mt-8 space-y-10">
+
 
     <!-- Aggregated totals table -->
     <div class="bg-white p-6 rounded-xl shadow">

@@ -14,7 +14,9 @@
         public int OverallPaxQty { get; set; }
         public decimal OverallPaxAmount { get; set; }
 
-
+        public int TenHourMultipass { get; set; }
+        
+        public int TwentyHourMultipass { get; set; }
     }
 
 }

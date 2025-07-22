@@ -116,7 +116,7 @@ namespace app_example.Pages.Admin
             // Example: call ML.NET Predict method
             // Replace with correct call if your generated code differs
             var prediction = MLModel.Predict(null, 365);
-            ForecastedValues = prediction.OverallPaxAmount.ToList();
+            ForecastedValues = prediction.OverallPaxAmount_UB.ToList();
 
             // Aggregate predictions
             WeeklyTotals = ForecastedValues.Chunk(7)
@@ -144,6 +144,7 @@ namespace app_example.Pages.Admin
             return RedirectToPage(); // refresh page
         }
 
+
         // Rule-based simulation: 1-year of daily sales data
         private async Task GenerateSimulatedDataAsync()
         {
@@ -151,46 +152,47 @@ namespace app_example.Pages.Admin
             var startDate = new DateTime(2022, 8, 1);
             var endDate = startDate.AddDays(365);
 
-            // 🧹 Remove previous simulated data in the same date range
-            var oldData = _context.DailyParkSales
-                .Where(d => d.Date >= startDate && d.Date < endDate);
+            // Remove old data in that date range
+            var oldData = _context.DailyParkSales.Where(d => d.Date >= startDate && d.Date < endDate);
             _context.DailyParkSales.RemoveRange(oldData);
             await _context.SaveChangesAsync();
 
-            decimal baseSales = 15000m;
+            decimal baseVisitors = 160;
 
             for (int day = 0; day < 365; day++)
             {
                 var date = startDate.AddDays(day);
                 var dayOfWeek = date.DayOfWeek.ToString();
 
-                // Trend: slow weekly growth
+                // Trend & seasonality
                 decimal trendFactor = 1 + (day / 7) * 0.001m;
-
-                // Seasonality: weekends get boost
-                decimal seasonalityFactor = (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
-                    ? 1.2m : 1.0m;
-
-                // Monthly effect
+                decimal weekendFactor = (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) ? 1.2m : 1.0m;
                 decimal monthFactor = date.Month switch
                 {
-                    12 => 1.5m, // December high
-                    4 => 0.8m,  // April low
+                    12 => 1.5m,
+                    4 => 0.8m,
                     _ => 1.0m
                 };
-
-                // Random noise ±5%
                 decimal randomFactor = 1 + ((decimal)(random.NextDouble() * 0.1) - 0.05m);
 
-                // Compute sales & visitors
-                decimal simulatedSales = baseSales * trendFactor * seasonalityFactor * monthFactor * randomFactor;
-                int visitors = (int)(simulatedSales / 100);
+                int visitors = (int)(baseVisitors * trendFactor * weekendFactor * monthFactor * randomFactor);
 
                 // Split into ticket types
-                int generalAdmission = (int)(visitors * 0.7);
+                int generalAdmission = (int)(visitors * 0.6);
                 int extendedHour = (int)(visitors * 0.1);
                 int pwdAdmission = (int)(visitors * 0.05);
                 int earlyJump = (int)(visitors * 0.15);
+                int tenHourPass = (int)(visitors * 0.02);
+                int twentyHourPass = (int)(visitors * 0.01);
+
+                // Compute total sales using prices
+                decimal simulatedSales =
+                    (generalAdmission * 499m) +
+                    (extendedHour * 399m) + 
+                    (pwdAdmission * 499m) +
+                    (earlyJump * 399m) +
+                    (tenHourPass * 3990m) +
+                    (twentyHourPass * 7485m);
 
                 _context.DailyParkSales.Add(new DailyParkSales
                 {
@@ -200,6 +202,8 @@ namespace app_example.Pages.Admin
                     ExtendedHour = extendedHour,
                     PWDGeneralAdmission = pwdAdmission,
                     EarlyJump = earlyJump,
+                    TenHourMultipass = tenHourPass,
+                    TwentyHourMultipass = twentyHourPass,
                     OverallPaxQty = visitors,
                     OverallPaxAmount = Math.Round(simulatedSales, 2)
                 });

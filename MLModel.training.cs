@@ -14,7 +14,7 @@ namespace App_example
     public partial class MLModel
     {
         public const string RetrainConnectionString = @"Data Source=LAPTOP-3CL6V52E\sqlexpress;Initial Catalog=WiiBandDB;Integrated Security=True;Trust Server Certificate=True";
-        public const string RetrainCommandString = @"SELECT CAST([Id] as REAL), [Date], CAST([DayOfWeek] as NVARCHAR(MAX)), CAST([GeneralAdmission] as REAL), CAST([ExtendedHour] as REAL), CAST([PWDGeneralAdmission] as REAL), CAST([EarlyJump] as REAL), CAST([OverallPaxQty] as REAL), CAST([OverallPaxAmount] as REAL) FROM [dbo].[DailyParkSales]";
+        public const string RetrainCommandString = @"SELECT CAST([Id] as REAL), [Date], CAST([DayOfWeek] as NVARCHAR(MAX)), CAST([GeneralAdmission] as REAL), CAST([ExtendedHour] as REAL), CAST([PWDGeneralAdmission] as REAL), CAST([EarlyJump] as REAL), CAST([OverallPaxQty] as REAL), CAST([OverallPaxAmount] as REAL), CAST([TenHourMultipass] as REAL), CAST([TwentyHourMultipass] as REAL) FROM [dbo].[DailyParkSales]";
 
         /// <summary>
         /// Train a new model with the provided dataset.
@@ -87,7 +87,7 @@ namespace App_example
         public static IEstimator<ITransformer> BuildPipeline(MLContext mlContext)
         {
             // Data process configuration with pipeline data transformations
-            var pipeline = mlContext.Forecasting.ForecastBySsa(windowSize:12,seriesLength:2194,trainSize:396,horizon:30,outputColumnName:@"OverallPaxAmount",inputColumnName:@"OverallPaxAmount",confidenceLowerBoundColumn:@"OverallPaxAmount_LB",confidenceUpperBoundColumn:@"OverallPaxAmount_UB");
+            var pipeline = mlContext.Forecasting.ForecastBySsa(windowSize:2,seriesLength:10,trainSize:396,horizon:30,outputColumnName:@"OverallPaxAmount",inputColumnName:@"OverallPaxAmount",confidenceLowerBoundColumn:@"OverallPaxAmount_LB",confidenceUpperBoundColumn:@"OverallPaxAmount_UB");
 
             return pipeline;
         }
