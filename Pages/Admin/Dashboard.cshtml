@@ -46,7 +46,7 @@
                 </h3>
 
                 <!-- Dashboard Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="grid grid-cols-4 md:grid-cols-4 gap-6 mb-6">
                     <!-- Date -->
                     <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 flex items-start gap-4">
                         <svg class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -62,9 +62,9 @@
 
                     <!-- Visitors -->
                     <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 flex items-start gap-4">
-                        <svg class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m6-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87"/>
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m6-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87" />
+        </svg>
                         <div>
                             <div class="text-sm text-gray-500">Visitors</div>
                             <div class="text-3xl font-bold text-blue-600">
@@ -73,6 +73,18 @@
                         </div>
                     </div>
 
+                    <!-- Active Now -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 flex items-start gap-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+                        <div>
+                            <div class="text-sm text-gray-500">Active Now</div>
+                            <div class="text-3xl font-bold text-purple-600 activeNowCount">
+                                @Model.TodayTransactions.ActiveNow
+                            </div>
+                        </div>
+                    </div>
                     <!-- Total Sales -->
                     <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 flex items-start gap-4">
                         <svg class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -91,18 +103,21 @@
                 <!-- Transactions Table -->
                 <div class="overflow-x-auto border border-gray-200 rounded-lg shadow">
                     <table class="min-w-full bg-white text-sm sm:text-base">
-                        <thead class="bg-gray-50">
+                        <thead class="bg-gray-100">
                             <tr>
-                                <th class="px-4 py-2 text-left font-medium text-gray-500">Transaction ID</th>
-                                <th class="px-4 py-2 text-left font-medium text-gray-500 ">Customer Name</th>
-                                <th class="px-4 py-2 text-left font-medium text-gray-500 ">Email</th>
-                                <th class="px-4 py-2 text-left font-medium text-gray-500 ">Promo</th>
-                                <th class="px-4 py-2 text-left font-medium text-gray-500 ">Jumpers</th>
-                                <th class="px-4 py-2 text-left font-medium text-gray-500">Discounted</th>
-                                <th class="px-4 py-2 text-left font-medium text-gray-500">Total</th>
+                                <th class="px-4 py-2 text-left font-medium text-gray-500 border-b">Transaction ID</th>
+                                <th class="px-4 py-2 text-left font-medium text-gray-500 border-b">Customer Name</th>
+                                <th class="px-4 py-2 text-left font-medium text-gray-500 border-b">Email</th>
+                                <th class="px-4 py-2 text-left font-medium text-gray-500 border-b">Promo</th>
+                                <th class="px-4 py-2 text-left font-medium text-gray-500 border-b">Jumpers</th>
+                                <th class="px-4 py-2 text-left font-medium text-gray-500 border-b">Discounted</th>
+                                <th class="px-4 py-2 text-left font-medium text-gray-500 border-b">Total</th>
+                                <th class="px-4 py-2 text-left font-medium text-gray-500 border-b">Status</th>
+                                <th class="px-4 py-2 text-left font-medium text-gray-500 border-b">Time</th>
+
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="divide-y divide-gray-200">
                             @foreach (var tx in Model.TodayTransactions.Transactions.OrderByDescending(t => t.Id))
                             {
                                 <tr class="hover:bg-gray-50">
@@ -111,8 +126,15 @@
                                     <td class="px-4 py-2">@tx.Email</td>
                                     <td class="px-4 py-2">@tx.Promo</td>
                                     <td class="px-4 py-2">@tx.NumberOfJumpers</td>
-                                    <td class="px-4 py-2">@(tx.IsDiscounted ? "Yes" : "No")</td>
+                                    <td class="px-4 py-2">@tx.Discounted</td>
                                     <td class="px-4 py-2 font-semibold">₱@tx.TotalAmount.ToString("N2")</td>
+                                    <td class="px-4 py-2">
+                                        <span class="status">@tx.Status</span>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <span class="countdown">@tx.TimeRemaining</span>
+                                    </td>
+
                                 </tr>
                             }
                         </tbody>
@@ -195,3 +217,56 @@
         }
     </section>
 </div>
+
+@section Scripts {
+    <!-- Countdown Status, and Active Now fetching -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function tickCountdowns() {
+                let activeNow = 0;
+
+                const rows = document.querySelectorAll('tr');
+                rows.forEach(row => {
+                    const countdownEl = row.querySelector('.countdown');
+                    const statusEl = row.querySelector('.status');
+                    if (!countdownEl || !statusEl) return;
+
+                    const text = countdownEl.textContent.trim();
+                    const parts = text.split(":").map(p => parseInt(p, 10));
+                    if (parts.length !== 3 || parts.some(isNaN)) {
+                        countdownEl.textContent = "00:00:00";
+                        statusEl.textContent = "Finished";
+                        return;
+                    }
+
+                    let totalSeconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+                    totalSeconds = Math.max(0, totalSeconds - 1);
+
+                    const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+                    const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+                    const s = String(totalSeconds % 60).padStart(2, '0');
+
+                    countdownEl.textContent = `${h}:${m}:${s}`;
+
+                    if (totalSeconds > 0) {
+                        statusEl.textContent = "Active";
+                        const jumpers = parseInt(row.querySelector('td:nth-child(5)').textContent) || 0;
+                        activeNow += jumpers;
+                    } else {
+                        statusEl.textContent = "Finished";
+                    }
+                });
+
+                // Update Active Now count
+                const activeNowElement = document.getElementById("activeNowCount");
+                if (activeNowElement) {
+                    activeNowElement.textContent = activeNow;
+                }
+            }
+
+            tickCountdowns();
+            setInterval(tickCountdowns, 1000);
+        });
+    </script>
+
+}

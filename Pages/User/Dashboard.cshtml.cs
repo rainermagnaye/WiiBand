@@ -70,8 +70,20 @@ namespace app_example.Pages.User
 
         public async Task<IActionResult> OnPostAsync()
         {
+            // Server-side validation: Discounted must not exceed NumberOfJumpers
+            if (Transaction.Discounted > Transaction.NumberOfJumpers)
+            {
+                ModelState.AddModelError("Transaction.Discounted", "Discounted jumpers cannot exceed total tickets.");
+            }
+
             if (!ModelState.IsValid)
+            {
+                // Force the modal to open again by setting a flag
+                ViewData["ShowCreateModal"] = true;
+
+                await OnGetAsync(); // Rehydrate view model
                 return Page();
+            }
 
             var client = _httpClientFactory.CreateClient();
 
@@ -86,10 +98,24 @@ namespace app_example.Pages.User
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToPage();
+                return RedirectToPage(); // Success: reload page
             }
 
-            ModelState.AddModelError(string.Empty, "Failed to create transaction.");
+            // If API returns a validation error (like from backend logic)
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                ModelState.AddModelError("Transaction.Discounted", errorMsg);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Failed to create transaction.");
+            }
+
+            // Force the modal to show again after failed submission
+            ViewData["ShowCreateModal"] = true;
+
+            await OnGetAsync(); // Rehydrate Summary & Transactions on failure
             return Page();
         }
     }

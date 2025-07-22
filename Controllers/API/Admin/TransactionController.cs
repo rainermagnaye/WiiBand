@@ -17,6 +17,11 @@ namespace app_example.Controllers.API.Admin
             _context = context;
         }
 
+        private DateTime GetExpiresAt(DateTime createdAt)
+        {
+            return createdAt.AddHours(1).AddMinutes(2);
+        }
+
         // GET: api/admin/transaction/today?branch=...
         [HttpGet("today")]
         public async Task<ActionResult<TodaySummary>> GetTodaySummary([FromQuery] string branch)
@@ -26,6 +31,7 @@ namespace app_example.Controllers.API.Admin
 
             var today = DateTime.UtcNow.Date;
             var tomorrow = today.AddDays(1);
+            var now = DateTime.UtcNow;
 
             var transactions = await _context.Transactions
                 .Include(t => t.Customer)
@@ -35,25 +41,47 @@ namespace app_example.Controllers.API.Admin
                     t.Branch == branch)
                 .ToListAsync();
 
-            var response = new TodaySummary
+            var transactionResponses = transactions.Select(t =>
             {
-                Date = today,
-                TotalJumpers = transactions.Sum(t => t.NumberOfJumpers),
-                TotalSales = transactions.Sum(t => t.TotalAmount),
-                Transactions = transactions.Select(t => new TransactionResponse
+                var expiresAt = GetExpiresAt(t.CreatedAt);
+                var countdown = expiresAt - now;
+                var status = countdown > TimeSpan.Zero ? "Active" : "Finished";
+                var timeRemaining = countdown > TimeSpan.Zero
+                    ? countdown.ToString(@"hh\:mm\:ss")
+                    : "00:00:00";
+
+                return new TransactionResponse
                 {
                     Id = t.Id,
-                    CustomerName = t.Customer?.CustomerName ?? "",
-                    Email = t.Customer?.Email ?? "",
                     Promo = t.Promo,
                     NumberOfJumpers = t.NumberOfJumpers,
-                    IsDiscounted = t.IsDiscounted,
+                    Discounted = t.Discounted,
                     TotalAmount = t.TotalAmount,
                     CustomerId = t.CustomerId,
-                }).ToList()
+                    CustomerName = t.Customer?.CustomerName ?? "",
+                    Email = t.Customer?.Email ?? "",
+                    ExpiresAt = expiresAt,
+                    TimeRemaining = timeRemaining,
+                    Status = status
+                };
+            }).ToList();
+
+            var totalJumpers = transactionResponses.Sum(t => t.NumberOfJumpers);
+            var totalSales = transactionResponses.Sum(t => t.TotalAmount);
+            var activeNow = transactionResponses
+                .Where(t => t.Status == "Active")
+                .Sum(t => t.NumberOfJumpers);
+
+            var summary = new TodaySummary
+            {
+                Date = today,
+                TotalJumpers = totalJumpers,
+                TotalSales = totalSales,
+                ActiveNow = activeNow,
+                Transactions = transactionResponses
             };
 
-            return Ok(response);
+            return Ok(summary);
         }
     }
 }
