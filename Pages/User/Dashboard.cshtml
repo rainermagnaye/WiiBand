@@ -8,10 +8,9 @@
 <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
 
 <!-- Dashboard Grid -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto p-4">
-
+<div class="grid grid-cols-4 md:grid-cols-4 gap-6 max-w-6xl mx-auto p-4">
     <!-- Date -->
-    <div class="bg-white border border-gray-200 rounded-xl shadow p-5 flex items-start gap-4">
+    <div class="bg-white border border-gray-200 rounded-xl shadow p-5 flex items-start gap-4 w-full">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3M16 7V3M4 11h16M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
@@ -24,7 +23,7 @@
     </div>
 
     <!-- Visitors -->
-    <div class="bg-white border border-gray-200 rounded-xl shadow p-5 flex items-start gap-4">
+    <div class="bg-white border border-gray-200 rounded-xl shadow p-5 flex items-start gap-4 w-full">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m6-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87" />
         </svg>
@@ -36,13 +35,25 @@
         </div>
     </div>
 
+    <!-- Active Now -->
+    <div class="bg-white border border-gray-200 rounded-xl shadow p-5 flex items-start gap-4 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <div>
+            <div class="text-sm text-gray-500">Active Now</div>
+            <div class="text-3xl font-bold text-purple-600" id="activeNowCount">
+                @Model.Summary.ActiveNow
+            </div>
+        </div>
+    </div>
+
     <!-- Total Sales -->
-    <div class="bg-white border border-gray-200 rounded-xl shadow p-5 flex items-start gap-4">
+    <div class="bg-white border border-gray-200 rounded-xl shadow p-5 flex items-start gap-4 w-full">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-6v.01M12 12v.01M21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8 4.03-8 9-8 9 3.582 9 8z" />
         </svg>
-
         <div>
             <div class="text-sm text-gray-500">Total Sales</div>
             <div class="text-3xl font-bold text-green-600">
@@ -50,92 +61,106 @@
             </div>
         </div>
     </div>
+
 </div>
 
+
+<!-- Button to open modal -->
 <div class="max-w-7xl mx-auto p-4 flex flex-wrap justify-end">
     <button id="openModalBtn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded inline-flex items-center">
         <span>+ New Transaction</span>
     </button>
 </div>
 
-<!-- Modal -->
-<div id="createModal"
-     class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden items-center justify-center">
+<!-- Modal for creating transaction -->
+<div id="createModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden items-center justify-center">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
         <h2 class="text-lg font-semibold mb-4">Create Transaction</h2>
-
-        <form method="post" class="space-y-4">
+        <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm"></div>
 
-            <div class="mb-3">
-                <label class="block text-sm font-medium mb-1">Promo</label>
-                <select asp-for="Transaction.Promo" class="border rounded w-full p-2 bg-white">
+            <div class="py-2">
+                <label class="block text-sm font-medium">Promo</label>
+                <select asp-for="Transaction.Promo" class="border rounded w-full p-2 bg-white" required>
                     <option value="">Select Promo</option>
                     <option value="Early Bird">Early Bird - ₱399</option>
                     <option value="Regular">Regular - ₱499</option>
+                    <option value="10hrs Multipass">10hrs Multipass - ₱3990</option>
+                    <option value="20hrs Multipass">20hrs Multipass - ₱7485</option>
                 </select>
                 <span asp-validation-for="Transaction.Promo" class="text-red-500 text-xs"></span>
             </div>
 
-            <div class="mb-3">
-                <label class="block text-sm font-medium">Number of Jumpers</label>
-                <input asp-for="Transaction.NumberOfJumpers" type="number" class="border rounded w-full p-2" />
-                <span asp-validation-for="Transaction.NumberOfJumpers" class="text-red-500 text-xs"></span>
+            <div class="flex gap-6">
+              <!-- Number of Jumpers -->
+              <div class="flex flex-col">
+                <label class="block text-sm font-medium mb-1">Ticket/s</label>
+                <input asp-for="Transaction.NumberOfJumpers"
+                       type="number"
+                       class="border rounded w-28 p-2"
+                       required />
+                <span asp-validation-for="Transaction.NumberOfJumpers"
+                      class="text-red-500 text-xs"></span>
+              </div>
+
+                <!-- Discounted Jumpers -->
+                <div class="flex flex-col">
+                    <label class="block text-sm font-medium mb-1">Discounted Jumpers</label>
+                    <input asp-for="Transaction.Discounted"
+                           type="number"
+                           min="0"
+                           class="border rounded w-28 p-2"
+                           required />
+                    <span asp-validation-for="Transaction.Discounted"
+                          class="text-red-500 text-xs"></span>
+                    <span id="discountWarning" class="text-red-500 text-xs hidden">
+                        Discounted jumpers cannot exceed total tickets.
+                    </span>
+                </div>
+
             </div>
 
-            <div class="mb-3">
-                <label class="inline-flex items-center">
-                    <input asp-for="Transaction.IsDiscounted" type="checkbox" class="mr-2" />
-                    Discounted
-                </label>
-            </div>
-
-            <div class="mb-3">
+            <div class="py-2">
                 <label class="block text-sm font-medium">Customer Name</label>
-                <input asp-for="Transaction.CustomerName" class="border rounded w-full p-2" />
+                <input asp-for="Transaction.CustomerName" class="border rounded w-full p-2" required />
                 <span asp-validation-for="Transaction.CustomerName" class="text-red-500 text-xs"></span>
             </div>
 
-            <div class="mb-3">
+            <div class="py-2">
                 <label class="block text-sm font-medium">Email</label>
-                <input asp-for="Transaction.Email" type="email" class="border rounded w-full p-2" />
+                <input asp-for="Transaction.Email" type="email" class="border rounded w-full p-2" required />
                 <span asp-validation-for="Transaction.Email" class="text-red-500 text-xs"></span>
             </div>
 
-            <div class="flex justify-end space-x-2">
-                <button type="button" id="closeModalBtn" class="px-4 py-2 rounded border">Cancel</button>
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+            <!-- Total Amount Preview -->
+            <div class="py-2">
+                <label class="block text-sm font-medium">Total Amount</label>
+                <p id="totalAmountDisplay" class="font-semibold text-lg">₱0.00</p>
             </div>
+
+
+            <div class="flex justify-end space-x-2 py-2">
+                <button type="button" id="closeModalBtn" class="px-4 py-2 rounded border">Cancel</button>
+                @* <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button> *@
+                <button type="submit"
+                        id="submitBtn"
+                        class="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled>
+                    Submit
+                </button>
+
+            </div>
+
         </form>
+
     </div>
 </div>
 
-<script>
-    const modal = document.getElementById("createModal");
-    const openBtn = document.getElementById("openModalBtn");
-    const closeBtn = document.getElementById("closeModalBtn");
 
-    openBtn.addEventListener("click", () => {
-        modal.classList.remove("hidden");
-        modal.classList.add("flex");
-    });
-
-    closeBtn.addEventListener("click", () => {
-        modal.classList.remove("flex");
-        modal.classList.add("hidden");
-    });
-
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.classList.remove("flex");
-            modal.classList.add("hidden");
-        }
-    });
-</script>
-
+<!-- Transactions Table -->
 @if (Model.Summary.Transactions == null || !Model.Summary.Transactions.Any())
 {
-    <p class="text-gray-600">You have no transactions yet.</p>
+    <p class="text-gray-600 mt-4">You have no transactions yet.</p>
 }
 else
 {
@@ -143,13 +168,15 @@ else
         <table class="min-w-full bg-white border border-gray-300 shadow-sm">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="text-left py-2 px-4 border-b">Transaction ID</th>
-                    <th class="text-left py-2 px-4 border-b">Customer Name</th>
+                    <th class="text-left py-2 px-4 border-b">ID</th>
+                    <th class="text-left py-2 px-4 border-b">Customer</th>
                     <th class="text-left py-2 px-4 border-b">Email</th>
                     <th class="text-left py-2 px-4 border-b">Promo</th>
                     <th class="text-left py-2 px-4 border-b">Jumpers</th>
                     <th class="text-left py-2 px-4 border-b">Discounted</th>
-                    <th class="text-left py-2 px-4 border-b">Total</th>
+                    <th class="text-left py-2 px-4 border-b">Amount</th>
+                    <th class="text-left py-2 px-4 border-b">Status</th>
+                    <th class="text-left py-2 px-4 border-b">Time</th>
                 </tr>
             </thead>
             <tbody>
@@ -161,13 +188,195 @@ else
                         <td class="py-2 px-4 border-b">@tx.Email</td>
                         <td class="py-2 px-4 border-b">@tx.Promo</td>
                         <td class="py-2 px-4 border-b">@tx.NumberOfJumpers</td>
-                        <td class="py-2 px-4 border-b">@(tx.IsDiscounted ? "Yes" : "No")</td>
+                        <td class="py-2 px-4 border-b">@tx.Discounted</td>
                         <td class="py-2 px-4 border-b font-semibold">
                             @tx.TotalAmount.ToString("C", new System.Globalization.CultureInfo("en-PH"))
+                        </td>
+                        <td class="py-2 px-4 border-b">
+                            <span class="status">@tx.Status</span>
+                        </td>
+                        <td class="py-2 px-4 border-b">
+                            <span class="countdown">
+                                @tx.TimeRemaining
+                            </span>
                         </td>
                     </tr>
                 }
             </tbody>
+
         </table>
+
+
     </div>
 }
+
+@section Scripts {
+    <!--Modal Script-->
+    <script>
+        const modal = document.getElementById("createModal");
+        const openBtn = document.getElementById("openModalBtn");
+        const closeBtn = document.getElementById("closeModalBtn");
+
+        openBtn.addEventListener("click", () => {
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        });
+
+        closeBtn.addEventListener("click", () => {
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+        });
+
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                modal.classList.remove("flex");
+                modal.classList.add("hidden");
+            }
+        });
+    </script>
+
+    <!-- Countdown Status, and Active Now fetching -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function tickCountdowns() {
+                let activeNow = 0;
+
+                const rows = document.querySelectorAll('tr');
+                rows.forEach(row => {
+                    const countdownEl = row.querySelector('.countdown');
+                    const statusEl = row.querySelector('.status');
+                    if (!countdownEl || !statusEl) return;
+
+                    const text = countdownEl.textContent.trim();
+                    const parts = text.split(":").map(p => parseInt(p, 10));
+                    if (parts.length !== 3 || parts.some(isNaN)) {
+                        countdownEl.textContent = "00:00:00";
+                        statusEl.textContent = "Finished";
+                        return;
+                    }
+
+                    let totalSeconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+                    totalSeconds = Math.max(0, totalSeconds - 1);
+
+                    const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+                    const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+                    const s = String(totalSeconds % 60).padStart(2, '0');
+
+                    countdownEl.textContent = `${h}:${m}:${s}`;
+
+                    if (totalSeconds > 0) {
+                        statusEl.textContent = "Active";
+                        const jumpers = parseInt(row.querySelector('td:nth-child(5)').textContent) || 0;
+                        activeNow += jumpers;
+                    } else {
+                        statusEl.textContent = "Finished";
+                    }
+                });
+
+                // Update Active Now count
+                const activeNowElement = document.getElementById("activeNowCount");
+                if (activeNowElement) {
+                    activeNowElement.textContent = activeNow;
+                }
+            }
+
+            tickCountdowns();
+            setInterval(tickCountdowns, 1000);
+        });
+    </script>
+
+
+    <!-- Calculate Total Amount (preview) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const promoSelect = document.querySelector('[name="Transaction.Promo"]');
+            const ticketInput = document.querySelector('[name="Transaction.NumberOfJumpers"]');
+            const discountedInput = document.querySelector('[name="Transaction.Discounted"]');
+            const totalDisplay = document.getElementById('totalAmountDisplay');
+            const totalAmountInput = document.getElementById('totalAmountInput');
+
+            function calculateTotal() {
+                const promo = promoSelect.value.trim().toLowerCase();
+                const jumpers = parseInt(ticketInput.value) || 0;
+                const discounted = parseInt(discountedInput.value) || 0;
+
+                let pricePer = 499;
+                if (promo === "early bird") pricePer = 399;
+                else if (promo === "10hrs multipass") pricePer = 3990;
+                else if (promo === "20hrs multipass") pricePer = 7485;
+
+                let total = 0;
+
+                if (promo === "10hrs multipass" || promo === "20hrs multipass") {
+                    total = jumpers * pricePer;
+                } else {
+                    const discountedCount = Math.min(discounted, jumpers);
+                    const regularCount = jumpers - discountedCount;
+
+                    const discountedTotal = discountedCount * pricePer * 0.8;
+                    const regularTotal = regularCount * pricePer;
+
+                    total = discountedTotal + regularTotal;
+                }
+
+                total = Math.round(total * 100) / 100;
+
+                totalDisplay.textContent = `₱${total.toFixed(2)}`;
+                if (totalAmountInput) {
+                    totalAmountInput.value = total.toFixed(2);
+                }
+            }
+
+            promoSelect.addEventListener('change', calculateTotal);
+            ticketInput.addEventListener('input', calculateTotal);
+            discountedInput.addEventListener('input', calculateTotal);
+        });
+    </script>
+
+    <!-- Disable submit button if Discounted Jumpers exceed Tickets-->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ticketsInput = document.querySelector('[name="Transaction.NumberOfJumpers"]');
+            const discountedInput = document.querySelector('[name="Transaction.Discounted"]');
+            const submitBtn = document.getElementById("submitBtn");
+            const warning = document.getElementById("discountWarning");
+
+            function validateSubmitButton() {
+                const tickets = parseInt(ticketsInput.value) || 0;
+                const discounted = parseInt(discountedInput.value) || 0;
+
+                const isInvalid = discounted > tickets;
+
+                submitBtn.disabled = isInvalid;
+
+                if (isInvalid) {
+                    warning.classList.remove("hidden");
+                } else {
+                    warning.classList.add("hidden");
+                }
+            }
+
+            if (ticketsInput && discountedInput && submitBtn && warning) {
+                ticketsInput.addEventListener("input", validateSubmitButton);
+                discountedInput.addEventListener("input", validateSubmitButton);
+                validateSubmitButton(); // Initial run
+            }
+        });
+    </script>
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

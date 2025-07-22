@@ -326,8 +326,8 @@ namespace app_example.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsDiscounted")
-                        .HasColumnType("bit");
+                    b.Property<int>("Discounted")
+                        .HasColumnType("int");
 
                     b.Property<int>("NumberOfJumpers")
                         .HasColumnType("int");
